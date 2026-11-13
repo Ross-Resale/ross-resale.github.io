@@ -1,27 +1,25 @@
 /* =========================================================================
-   CONFIG — edit this block, then redeploy. Nothing else needs to change.
+   CONFIG: edit this block, then redeploy. Nothing else needs to change.
    ========================================================================= */
 const CONFIG = {
   // Google Form links (the "Send > link" URL, ending in /viewform).
-  // "remind" is the "Remind me in March" link. It can point at its own form
-  // or reuse one of the model forms (intent=remind tells them apart).
   forms: {
-    marketplace: "https://docs.google.com/forms/d/e/REPLACE_ME_MARKETPLACE/viewform",
-    storage:     "https://docs.google.com/forms/d/e/REPLACE_ME_STORAGE/viewform",
-    apartment:   "https://docs.google.com/forms/d/e/REPLACE_ME_APARTMENT/viewform",
-    reserve:     "https://docs.google.com/forms/d/e/REPLACE_ME_RESERVE/viewform",
-    remind:      "https://docs.google.com/forms/d/e/REPLACE_ME_REMIND/viewform",
+    marketplace: "https://docs.google.com/forms/d/e/REPLACE_ME_MARKETPLACE/viewform", // "List an item"
+    storage:     "https://docs.google.com/forms/d/e/REPLACE_ME_STORAGE/viewform",     // "Book a pickup"
+    apartment:   "https://docs.google.com/forms/d/e/REPLACE_ME_APARTMENT/viewform",   // whole-setup bundle line
+    reserve:     "https://docs.google.com/forms/d/e/REPLACE_ME_RESERVE/viewform",     // listing "Reserve" buttons
+    remind:      "https://docs.google.com/forms/d/e/REPLACE_ME_REMIND/viewform",      // "Remind me in March"
   },
 
-  // Optional prefill entry IDs, per form. Leave "" to skip a field.
-  // Example: segment: "entry.123456789"  -> appends &entry.123456789=mba2
-  // Each form has its own IDs, so fill these in per form (see README).
+  // Prefill entry IDs: one entry per tracked parameter, per form.
+  // Example: role: "entry.123456789"  ->  &entry.123456789=seller
+  // Leave "" to skip a field. Each form has its own IDs (see README).
   entryIds: {
-    marketplace: { source: "", src: "", segment: "", model: "", item: "", intent: "" },
-    storage:     { source: "", src: "", segment: "", model: "", item: "", intent: "" },
-    apartment:   { source: "", src: "", segment: "", model: "", item: "", intent: "" },
-    reserve:     { source: "", src: "", segment: "", model: "", item: "", intent: "" },
-    remind:      { source: "", src: "", segment: "", model: "", item: "", intent: "" },
+    marketplace: { source: "", src: "", segment: "", segment_source: "", role: "", model: "", order: "", item: "", intent: "" },
+    storage:     { source: "", src: "", segment: "", segment_source: "", role: "", model: "", order: "", item: "", intent: "" },
+    apartment:   { source: "", src: "", segment: "", segment_source: "", role: "", model: "", order: "", item: "", intent: "" },
+    reserve:     { source: "", src: "", segment: "", segment_source: "", role: "", model: "", order: "", item: "", intent: "" },
+    remind:      { source: "", src: "", segment: "", segment_source: "", role: "", model: "", order: "", item: "", intent: "" },
   },
 
   // Google Analytics 4 measurement ID, e.g. "G-ABC123XYZ". Leave "" to disable GA.
@@ -35,90 +33,78 @@ const CONFIG = {
 
 /* Line icons: 24px grid, 1.5px stroke, currentColor (see DESIGN.md > Shapes). */
 const ICONS = {
-  coat:      '<path d="M9 3l3 3 3-3 4 2 2 7-3 1v8H6v-8l-3-1 2-7z"/><path d="M12 6v15"/>',
-  boot:      '<path d="M6 3h7v8l5 2.5A3 3 0 0 1 20 16v3H6z"/><path d="M6 15h14"/>',
-  skis:      '<path d="M5 21L15 3M10 21L20 3"/><path d="M3 21h4M8 21h4"/>',
-  board:     '<path d="M5.5 19.5a2.5 2.5 0 0 1-1-3.4l9-11a2.5 2.5 0 0 1 3.9 3.1l-9 11a2.5 2.5 0 0 1-2.9.3z"/><path d="M9 13l2 1.5M12.5 9l2 1.5"/>',
-  scraper:   '<path d="M4.5 19.5l7-7"/><path d="M9.5 10.5l4 4 6-6-4-4z"/><path d="M14 6l4 4"/>',
-  heater:    '<rect x="4" y="5" width="16" height="13" rx="2"/><path d="M8 9v5M12 9v5M16 9v5M7 18v2M17 18v2"/>',
-  humid:     '<path d="M7 9h10l-1 11H8z"/><path d="M12 3c-1 1.5-2 2.6-2 3.6a2 2 0 0 0 4 0c0-1-1-2.1-2-3.6z"/>',
   sofa:      '<path d="M4 11V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3"/><path d="M2 13a2 2 0 0 1 4 0v2h12v-2a2 2 0 0 1 4 0v4a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/><path d="M5 18v2M19 18v2"/>',
   desk:      '<rect x="8" y="3" width="8" height="5" rx="1"/><path d="M12 8v1M3 9h18M5 9v11M19 9v11M14 9v6h5"/>',
-  bed:       '<path d="M3 5v14M21 19v-5a3 3 0 0 0-3-3h-8v5M3 16h18"/><circle cx="6.5" cy="12.5" r="1.5"/>',
+  shelf:     '<rect x="5" y="3" width="14" height="18" rx="1"/><path d="M5 9h14M5 15h14M8 5.5v3M10 5.5v3M14 11v3M16.5 17v2.5"/>',
+  monitor:   '<rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M12 16v4M8 20h8"/>',
+  printer:   '<path d="M7 9V3h10v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v7H7z"/>',
+  pot:       '<path d="M4 10h16v6a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4z"/><path d="M2 10h2M20 10h2M9.5 6.5c0-1 1-1.2 1-2.5M13.5 6.5c0-1 1-1.2 1-2.5"/>',
+  coffee:    '<path d="M6 3h12v4H6zM6 7v14h12"/><path d="M9 13h6v5H9z"/><path d="M12 7v3"/>',
+  purifier:  '<rect x="6" y="3" width="12" height="18" rx="3"/><circle cx="12" cy="12" r="3"/><path d="M9.5 6.5h5"/>',
+  rug:       '<rect x="4" y="6" width="16" height="12" rx="1"/><rect x="7.5" y="9" width="9" height="6" rx=".5"/><path d="M4 9H2M4 12H2M4 15H2M20 9h2M20 12h2M20 15h2"/>',
+  bike:      '<circle cx="6" cy="16" r="3.5"/><circle cx="18" cy="16" r="3.5"/><path d="M6 16l4-8h5l3 8M10 8l3 8H6M8.5 6h3M15 8l-1-3h2"/>',
+  skis:      '<path d="M5 21L15 3M10 21L20 3"/><path d="M3 21h4M8 21h4"/>',
+  coat:      '<path d="M9 3l3 3 3-3 4 2 2 7-3 1v8H6v-8l-3-1 2-7z"/><path d="M12 6v15"/>',
 };
 const icon = (name) =>
   `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name]}</svg>`;
 
-/* when: "now" = available to pick up now; "may" = example of a May move-out listing */
+/* when: "now" = in Ann Arbor now; "may" = available when the seller moves out in May */
 const LISTINGS = [
-  { slug: "down-parka-m",       title: "Down parka, men's M",              price: 150, was: 700, cat: "outerwear", icon: "coat",    when: "now" },
-  { slug: "long-down-coat-s",   title: "Long down coat, women's S",        price: 140, was: 550, cat: "outerwear", icon: "coat",    when: "now" },
-  { slug: "snow-boots-w8",      title: "Insulated snow boots, women's 8",  price: 45,  was: 160, cat: "outerwear", icon: "boot",    when: "now" },
-  { slug: "winter-boots-m11",   title: "Waterproof winter boots, men's 11", price: 55, was: 190, cat: "outerwear", icon: "boot",    when: "now" },
-  { slug: "ski-set-boots",      title: "Skis, boots and poles",            price: 200, was: 650, cat: "snow",      icon: "skis",    when: "now" },
-  { slug: "snowboard-bindings", title: "Snowboard with bindings",          price: 180, was: 520, cat: "snow",      icon: "board",   when: "now" },
-  { slug: "snow-brush-scraper", title: "Car snow brush and ice scraper",   price: 10,  was: 30,  cat: "home",      icon: "scraper", when: "now" },
-  { slug: "space-heater",       title: "Ceramic space heater",             price: 30,  was: 70,  cat: "home",      icon: "heater",  when: "now" },
-  { slug: "humidifier",         title: "Cool-mist humidifier",             price: 25,  was: 60,  cat: "home",      icon: "humid",   when: "now" },
-  { slug: "sofa-3-seat",        title: "Three-seat sofa, grey",            price: 220, was: 900, cat: "furniture", icon: "sofa",    when: "may" },
-  { slug: "standing-desk",      title: "Electric standing desk",           price: 180, was: 450, cat: "furniture", icon: "desk",    when: "may" },
-  { slug: "queen-bed-frame",    title: "Queen bed frame and mattress",     price: 250, was: 900, cat: "furniture", icon: "bed",     when: "may" },
+  { slug: "sofa-3-seat",       title: "Three-seat sofa, grey",          price: 220, cat: "furniture",   icon: "sofa",     year: "MBA2", when: "may" },
+  { slug: "standing-desk",     title: "Electric standing desk",         price: 180, cat: "furniture",   icon: "desk",     year: "MBA2", when: "may" },
+  { slug: "bookshelf-5-shelf", title: "Five-shelf bookshelf",           price: 40,  cat: "furniture",   icon: "shelf",    year: "MBA1", when: "now" },
+  { slug: "monitor-27-4k",     title: "27-inch 4K monitor",             price: 140, cat: "electronics", icon: "monitor",  year: "MBA2", when: "now" },
+  { slug: "laser-printer",     title: "Wireless laser printer",         price: 60,  cat: "electronics", icon: "printer",  year: "MBA2", when: "may" },
+  { slug: "cookware-set",      title: "Ten-piece cookware set",         price: 70,  cat: "kitchen",     icon: "pot",      year: "MBA2", when: "may" },
+  { slug: "coffee-maker",      title: "Drip coffee maker",              price: 25,  cat: "kitchen",     icon: "coffee",   year: "MBA1", when: "now" },
+  { slug: "air-purifier",      title: "HEPA air purifier",              price: 60,  cat: "home",        icon: "purifier", year: "MBA2", when: "now" },
+  { slug: "rug-and-lamp",      title: "Area rug and floor lamp",        price: 65,  cat: "home",        icon: "rug",      year: "MBA2", when: "may" },
+  { slug: "commuter-bike",     title: "Hybrid commuter bike with lock", price: 160, cat: "sports",      icon: "bike",     year: "MBA2", when: "now" },
+  { slug: "ski-set-boots",     title: "Skis, boots and poles",          price: 200, cat: "sports",      icon: "skis",     year: "MBA2", when: "now" },
+  { slug: "down-parka-m",      title: "Down parka, men's M",            price: 150, cat: "clothing",    icon: "coat",     year: "MBA1", when: "now" },
 ];
 
 const CATEGORIES = [
-  { id: "all",       label: "All" },
-  { id: "outerwear", label: "Coats and boots" },
-  { id: "snow",      label: "Ski and snowboard" },
-  { id: "home",      label: "Around the house" },
-  { id: "furniture", label: "Furniture (May)" },
+  { id: "all",         label: "All" },
+  { id: "furniture",   label: "Furniture" },
+  { id: "electronics", label: "Electronics" },
+  { id: "kitchen",     label: "Kitchen" },
+  { id: "home",        label: "Home" },
+  { id: "sports",      label: "Sports & Outdoor" },
+  { id: "clothing",    label: "Clothing" },
 ];
-const TILE = { outerwear: "tile-winter", snow: "tile-snow", home: "tile-home", furniture: "tile-furniture" };
 
-const MODELS = [
+/* Two ways to sell. Same component, same structure, same button style: keep them equal. */
+const OPTIONS = [
   {
     id: "marketplace",
-    name: "Marketplace",
-    lead: "List now. Sell to the incoming class before you leave.",
-    facts: ["You set the price", "Incoming students reserve before they arrive", "You meet your buyer or use the May drop-off"],
-    price: "10% of the sale",
-    note: "Taken only when it sells. Free to list.",
+    name: "List it yourself",
+    body: "You post your items, interested buyers reach out, and you arrange the handoff with them directly.",
+    price: "5% of the sale price",
+    note: "This comes out of the sale price only when an item sells, and listing is free.",
+    cta: "List an item",
+    ctaType: "list",
   },
   {
     id: "storage",
-    name: "Storage and resale",
-    lead: "One drop-off. We store it, sell it, and send you the money.",
-    facts: ["One drop-off in May", "We photograph, price and list it", "Paid out when it sells, after you've left"],
-    price: "$15 per item + 25%",
-    note: "Item fee at drop-off, 25% when it sells. Unsold items are donated.",
-  },
-  {
-    id: "apartment",
-    name: "Apartment transfer",
-    lead: "Hand off your whole apartment setup to one incoming student.",
-    facts: ["Furniture, kitchen and essentials together", "One buyer, one handoff", "Nothing to sort, pack or list item by item"],
-    price: "10% of the sale",
-    note: "Example: full 1BR setup, listed at $1,500.",
+    name: "We handle everything",
+    body: "We pick your items up from your apartment, store them over the summer, list and sell them to incoming students, and send you the money once they sell.",
+    price: "15% of the sale price",
+    note: "This comes out of the sale price only when an item sells, with a $10 minimum per item and nothing to pay upfront.",
+    cta: "Book a pickup",
+    ctaType: "pickup",
   },
 ];
 
 const SEGMENTS = {
   mba2: {
-    headline: 'You leave in May. Your <span class="mark">couch</span> doesn’t have to come with you.',
-    lede: "Sell your things to the next Ross class with one drop-off in May. We hold them over the summer, and buyers collect in August.",
-    order: ["waitlist", "listings"],
-    actions: [
-      { href: "#waitlist", label: "See the options", primary: true },
-      { href: "#listings", label: "Browse winter gear" },
-    ],
+    line: "Whenever you’re ready to clear out your apartment, you can sell to classmates yourself or let us take care of all of it.",
+    order: ["sell", "listings"],
   },
   mba1: {
-    headline: 'Next May, your <span class="mark">couch</span> doesn’t have to come with you.',
-    lede: "Remember furnishing your place in August? Next year you're the seller. For now, here's winter gear from classmates.",
-    order: ["listings", "waitlist"],
-    actions: [
-      { href: "#listings", label: "Browse winter gear", primary: true },
-      { href: "#waitlist", label: "See how selling could work" },
-    ],
+    line: "You probably remember how much work it was to furnish your place in August, and next year you’ll be the one selling.",
+    order: ["listings", "sell"],
   },
 };
 
@@ -130,6 +116,11 @@ const state = {
   segment: SEGMENTS[clean(pageParams.get("segment"))] ? clean(pageParams.get("segment")) : CONFIG.defaultSegment,
   category: "all",
 };
+/* "link" if ?segment= was in the URL, "default" until the visitor touches the toggle, then "toggle". */
+state.segmentSource = SEGMENTS[clean(pageParams.get("segment"))] ? "link" : "default";
+/* Randomize which option comes first (left on desktop, top on mobile) so position can't bias the test.
+   "ms" = marketplace first, "sm" = storage first. Recorded on both seller option CTAs. */
+state.order = Math.random() < 0.5 ? "ms" : "sm";
 
 /* ---------- Tracking helpers ---------- */
 function buildFormUrl(formKey, params) {
@@ -148,18 +139,21 @@ function buildFormUrl(formKey, params) {
   return url.toString();
 }
 
+/* Every CTA carries src, segment, role and model; item and intent only when they apply. */
 function ctaParams(a) {
   return {
     source: CONFIG.source,
     src: state.src,
     segment: state.segment,
+    segment_source: state.segmentSource,
+    role: a.dataset.role,
     model: a.dataset.model,
+    order: a.dataset.order || "",
     item: a.dataset.item || "",
     intent: a.dataset.intent || "",
   };
 }
 
-/* Every CTA is a real link; its href is rebuilt whenever the segment changes. */
 function refreshCtaLinks() {
   document.querySelectorAll("a[data-cta]").forEach((a) => {
     a.href = buildFormUrl(a.dataset.form, ctaParams(a));
@@ -193,6 +187,9 @@ function trackClick(a) {
       cta: a.dataset.cta,
       src: p.src,
       segment: p.segment,
+      segment_source: p.segment_source,
+      role: p.role,
+      order: p.order || "(none)",
       model: p.model,
       item: p.item || "(none)",
       intent: p.intent || "(none)",
@@ -207,10 +204,11 @@ const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&
 const catLabel = (id) => (CATEGORIES.find((c) => c.id === id) || {}).label || id;
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-function ctaLink({ form, model, item, cta, label, context }) {
+function ctaButton({ form, role, model, item, cta, label, context, order }) {
   return `<a class="btn btn-primary btn-block" href="#" target="_blank" rel="noopener"
             aria-label="${esc(label + ": " + context)}"
-            data-cta="${esc(cta)}" data-form="${esc(form)}" data-model="${esc(model)}" data-item="${esc(item || "")}">${esc(label)}</a>`;
+            data-cta="${esc(cta)}" data-form="${esc(form)}" data-role="${esc(role)}"
+            data-model="${esc(model)}" data-item="${esc(item || "")}"${order ? ` data-order="${esc(order)}"` : ""}>${esc(label)}</a>`;
 }
 
 function renderFilters() {
@@ -224,18 +222,14 @@ function gridHtml() {
   if (!items.length) return `<p class="empty">Nothing in this category yet.</p>`;
   return items.map((l) => `
     <article class="card">
-      <div class="tile ${TILE[l.cat]}">${icon(l.icon)}</div>
+      <div class="tile tile-${l.cat}">${icon(l.icon)}</div>
       <div class="card-body">
-        <p class="card-cat">${esc(l.when === "may" ? "Furniture" : catLabel(l.cat))}</p>
+        <p class="card-cat">${esc(catLabel(l.cat))}</p>
         <h3 class="card-title">${esc(l.title)}</h3>
-        <div class="card-price">
-          <span class="price">$${l.price}</span>
-          <span class="price-was">about $${l.was} new</span>
-          ${l.when === "may" ? `<span class="tag">May listing</span>` : ""}
-        </div>
-        <p class="card-meta">${l.when === "may" ? "MBA2 seller · Available in May" : "Classmate seller · In Ann Arbor now"}</p>
+        <div class="card-price"><span class="price">$${l.price}</span></div>
+        <p class="card-meta">${esc(l.year)} seller · ${l.when === "may" ? "Available in May" : "In Ann Arbor now"}</p>
         <div class="card-actions">
-          ${ctaLink({ form: "reserve", model: l.when === "may" ? "marketplace" : "none", item: l.slug, cta: "reserve", label: "Reserve", context: l.title })}
+          ${ctaButton({ form: "reserve", role: "buyer", model: "none", item: l.slug, cta: "reserve", label: "Reserve", context: l.title })}
         </div>
       </div>
     </article>`).join("");
@@ -249,17 +243,17 @@ function renderGrid(animate) {
   setTimeout(() => { paint(); grid.classList.remove("is-fading"); }, 240);
 }
 
-function renderModels() {
-  $("#models").innerHTML = MODELS.map((m) => `
+function renderOptions() {
+  const ordered = state.order === "sm" ? [OPTIONS[1], OPTIONS[0]] : OPTIONS;
+  $("#models").innerHTML = ordered.map((o) => `
     <article class="model">
-      <h3 class="model-name">${esc(m.name)}</h3>
-      <p class="model-lead">${esc(m.lead)}</p>
-      <ul class="facts">${m.facts.map((f) => `<li>${esc(f)}</li>`).join("")}</ul>
+      <h3 class="model-name">${esc(o.name)}</h3>
+      <p class="model-lead">${esc(o.body)}</p>
       <div class="model-price">
-        <span class="price">${esc(m.price)}</span>
-        <p class="model-note">${esc(m.note)}</p>
+        <span class="price">${esc(o.price)}</span>
+        <p class="model-note">${esc(o.note)}</p>
       </div>
-      ${ctaLink({ form: m.id, model: m.id, item: "", cta: "waitlist", label: "Join the waitlist", context: m.name })}
+      ${ctaButton({ form: o.id, role: "seller", model: o.id, item: "", cta: o.ctaType, label: o.cta, context: o.name, order: state.order })}
     </article>`).join("");
 }
 
@@ -267,27 +261,19 @@ function applySegment(animate) {
   const seg = SEGMENTS[state.segment];
   document.querySelectorAll(".segment-btn").forEach((b) =>
     b.setAttribute("aria-pressed", String(b.dataset.segment === state.segment)));
-  $("#hero-actions").innerHTML = seg.actions.map((a) =>
-    a.primary
-      ? `<a class="btn btn-primary" href="${a.href}">${esc(a.label)}</a>`
-      : `<a class="link-quiet" href="${a.href}">${esc(a.label)}</a>`
-  ).join("");
 
   const paint = () => {
-    $("#hero-title").innerHTML = seg.headline;
-    $("#hero-lede").textContent = seg.lede;
+    $("#segment-line").textContent = seg.line;
     const flow = $("#flow");
     seg.order.forEach((id) => flow.appendChild(document.getElementById(id)));
     refreshCtaLinks();
   };
   if (!animate || reducedMotion) { paint(); return; }
-  $("#hero-title").classList.add("is-fading");
-  $("#hero-lede").classList.add("is-fading");
+  $("#segment-line").classList.add("is-fading");
   $("#flow").classList.add("is-fading");
   setTimeout(() => {
     paint();
-    $("#hero-title").classList.remove("is-fading");
-    $("#hero-lede").classList.remove("is-fading");
+    $("#segment-line").classList.remove("is-fading");
     $("#flow").classList.remove("is-fading");
   }, 240);
 }
@@ -305,7 +291,7 @@ function toast(msg) {
 document.addEventListener("DOMContentLoaded", () => {
   initGA();
   renderFilters();
-  renderModels();
+  renderOptions();
   renderGrid(false);
   applySegment(false);
 
@@ -313,6 +299,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const btn = e.target.closest(".segment-btn");
     if (!btn || btn.dataset.segment === state.segment) return;
     state.segment = btn.dataset.segment;
+    state.segmentSource = "toggle";
     applySegment(true);
   });
 
@@ -331,7 +318,7 @@ document.addEventListener("DOMContentLoaded", () => {
     trackClick(a);
     if (isPlaceholder(a.href)) {
       e.preventDefault();
-      toast("This form isn't connected yet.");
+      toast("This form isn’t connected yet.");
       console.info("[Ross Resale] Add the Google Form URL for '" + a.dataset.form + "' in CONFIG (app.js).");
     }
   });

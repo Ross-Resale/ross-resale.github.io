@@ -1,4 +1,4 @@
-/* Ross Resale — see DESIGN.md for the system these tokens come from. */
+/* Ross Resale: see DESIGN.md for the system these tokens come from. */
 :root {
   --navy-ink: #00274C;
   --navy-deep: #001A33;
@@ -101,30 +101,20 @@ a { color: inherit; text-underline-offset: 0.22em; text-decoration-thickness: 1p
 .hero { padding: var(--s-2xl) 0 var(--s-3xl); }
 .hero-title {
   font-family: var(--serif); font-weight: 350;
-  font-size: clamp(2.75rem, 6vw, 4.75rem); line-height: 1.02; letter-spacing: -0.015em;
-  max-width: 19ch; text-wrap: balance;
+  font-size: clamp(2.5rem, 5.2vw, 4.25rem); line-height: 1.04; letter-spacing: -0.015em;
+  max-width: 21ch; text-wrap: balance;
   font-variation-settings: "opsz" 72;
 }
 .mark {
   text-decoration: underline; text-decoration-color: var(--maize);
   text-decoration-thickness: 0.09em; text-underline-offset: 0.12em; text-decoration-skip-ink: none;
 }
-.hero-lede { margin-top: var(--s-md); max-width: 46ch; color: var(--slate); font-size: clamp(1.0625rem, 1.6vw, 1.1875rem); }
+.hero-lede { margin-top: var(--s-lg); max-width: 54ch; color: var(--slate); font-size: clamp(1.0625rem, 1.6vw, 1.1875rem); }
 .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-sm) var(--s-lg); margin-top: var(--s-xl); }
 
-.steps {
-  list-style: none; padding: 0; margin: var(--s-2xl) 0 0;
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  border-top: 1px solid var(--hairline);
-}
-.steps li { padding: var(--s-lg) var(--s-lg) 0 0; }
-.steps li + li { padding-left: var(--s-lg); border-left: 1px solid var(--hairline); }
-.step-num {
-  display: block; font-family: var(--serif); font-size: 1.75rem; line-height: 1; color: var(--muted);
-  font-variant-numeric: lining-nums;
-}
-.step-title { margin-top: var(--s-sm); font-family: var(--serif); font-weight: 500; font-size: 1.375rem; line-height: 1.2; }
-.steps p { margin-top: var(--s-xs); font-size: .9375rem; line-height: 1.5; color: var(--slate); max-width: 34ch; }
+.audience { margin-top: var(--s-2xl); padding-top: var(--s-lg); border-top: 1px solid var(--hairline); }
+.segment-line { margin-top: var(--s-md); max-width: 52ch; color: var(--slate); transition: opacity 240ms var(--ease); }
+.segment-line.is-fading { opacity: 0; }
 
 /* ---------- Sections ---------- */
 .section { padding: var(--s-3xl) 0; }
@@ -168,9 +158,11 @@ a { color: inherit; text-underline-offset: 0.22em; text-decoration-thickness: 1p
 }
 .tile svg { width: 56px; height: 56px; opacity: .7; }
 .tile-furniture { background: var(--tile-sand); }
-.tile-winter { background: var(--tile-fog); }
-.tile-snow { background: var(--tile-stone); }
-.tile-home { background: var(--tile-clay); }
+.tile-electronics { background: var(--tile-stone); }
+.tile-kitchen { background: var(--tile-clay); }
+.tile-home { background: var(--tile-sage); }
+.tile-sports { background: var(--tile-fog); }
+.tile-clothing { background: var(--tile-fog); }
 
 .card-body { display: flex; flex-direction: column; flex: 1; padding: var(--s-md) 4px 4px; }
 .card-cat { font-size: .875rem; font-weight: 500; color: var(--muted); }
@@ -194,26 +186,26 @@ a { color: inherit; text-underline-offset: 0.22em; text-decoration-thickness: 1p
 
 /* ---------- Models ---------- */
 .models {
-  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--s-xl);
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--s-2xl);
   border-top: 1px solid var(--navy-ink);
 }
 .model { position: relative; display: flex; flex-direction: column; padding-top: var(--s-lg); }
 .model + .model::before {
-  content: ""; position: absolute; top: 0; bottom: 0; left: calc(var(--s-xl) / -2);
+  content: ""; position: absolute; top: 0; bottom: 0; left: calc(var(--s-2xl) / -2);
   border-left: 1px solid var(--hairline);
 }
-.model-name { font-family: var(--serif); font-weight: 500; font-size: 1.5rem; line-height: 1.15; letter-spacing: -0.005em; text-wrap: balance; }
+.model-name { font-family: var(--serif); font-weight: 500; font-size: 1.75rem; line-height: 1.15; letter-spacing: -0.005em; text-wrap: balance; }
 .model-desc { margin-top: var(--s-sm); color: var(--slate); line-height: 1.55; }
 .facts { list-style: none; padding: 0; margin: var(--s-lg) 0 0; font-size: .9375rem; }
 .facts li { padding: 10px 0; border-top: 1px solid var(--hairline); }
 .facts li:last-child { border-bottom: 1px solid var(--hairline); }
 .model-price { margin-top: auto; padding-top: var(--s-xl); }
 .model-price .price { font-size: 1.75rem; }
-.model-note { margin-top: 6px; font-size: .875rem; color: var(--muted); min-height: 2.6em; }
-.model .btn { margin-top: var(--s-md); }
+.model-note { margin-top: 6px; font-size: .875rem; color: var(--muted); }
+.model .btn { margin-top: var(--s-lg); max-width: 320px; }
 
 /* ---------- Segment toggle ---------- */
-.segment { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-sm) var(--s-md); margin-top: var(--s-xl); }
+.segment { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-sm) var(--s-md); }
 .segment-label { font-size: .9375rem; color: var(--slate); }
 .segment-options {
   display: inline-flex; padding: 3px; gap: 3px;
@@ -227,13 +219,15 @@ a { color: inherit; text-underline-offset: 0.22em; text-decoration-thickness: 1p
 }
 .segment-btn:hover { color: var(--navy-ink); }
 .segment-btn[aria-pressed="true"] { background: var(--navy-ink); color: var(--surface); }
-.hero-title, .hero-lede { transition: opacity 240ms var(--ease); }
-.hero-title.is-fading, .hero-lede.is-fading { opacity: 0; }
 #flow > .section { transition: opacity 240ms var(--ease); }
 #flow.is-fading > .section { opacity: 0; }
 
 /* ---------- Model lead line ---------- */
-.model-lead { margin-top: var(--s-sm); font-family: var(--serif); font-size: 1.125rem; line-height: 1.35; color: var(--navy-ink); }
+.model-lead { margin-top: var(--s-sm); max-width: 44ch; color: var(--slate); }
+
+/* ---------- Bundle line ---------- */
+.bundle { margin-top: var(--s-xl); padding-top: var(--s-lg); border-top: 1px solid var(--hairline); color: var(--slate); }
+.link-inline { display: inline; min-height: 0; font-size: inherit; }
 
 /* ---------- Remind ---------- */
 .remind { border-top: 1px solid var(--hairline); }
@@ -261,7 +255,7 @@ a { color: inherit; text-underline-offset: 0.22em; text-decoration-thickness: 1p
 .hero .wrap > * { animation: settle 600ms var(--ease) both; }
 .hero .hero-lede { animation-delay: 80ms; }
 .hero .hero-actions { animation-delay: 160ms; }
-.hero .steps { animation-delay: 260ms; }
+.hero .audience { animation-delay: 240ms; }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 960px) {
@@ -274,16 +268,12 @@ a { color: inherit; text-underline-offset: 0.22em; text-decoration-thickness: 1p
   .model + .model { border-top: 1px solid var(--hairline); }
   .model-price { padding-top: var(--s-lg); }
   .model-note { min-height: 0; }
+  .model .btn { max-width: none; }
 }
 @media (max-width: 700px) {
   .wrap { padding: 0 20px; }
   .hero { padding: var(--s-xl) 0 var(--s-2xl); }
   .section { padding: var(--s-2xl) 0; }
-  .steps { grid-template-columns: 1fr; margin-top: var(--s-xl); }
-  .steps li, .steps li + li { padding: var(--s-md) 0; border-left: 0; display: grid; grid-template-columns: 2rem 1fr; column-gap: var(--s-sm); }
-  .steps li + li { border-top: 1px solid var(--hairline); }
-  .step-num { grid-row: span 2; font-size: 1.375rem; padding-top: 2px; }
-  .step-title { margin-top: 0; font-size: 1.125rem; }
   .grid { gap: var(--s-md); }
   .card { padding: 8px; }
   .card-body { padding: 12px 4px 4px; }
