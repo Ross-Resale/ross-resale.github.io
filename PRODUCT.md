@@ -12,12 +12,21 @@ Static HTML, CSS and vanilla JS. No framework, no build step. Hosted on GitHub P
 
 ## Users
 
-Ross MBA students, aged roughly 26 to 34. They are busy and mobile-first, and already used to Facebook Marketplace, Craigslist and class WhatsApp groups. Two sides:
+Ross MBA students, aged roughly 26 to 34. They are busy and mobile-first, and already used to Facebook Marketplace, Craigslist and class WhatsApp groups. They value trust (only classmates), convenience and fair prices.
 
-- **Incoming MBA1s** are moving to Ann Arbor, often from far away. They need furniture, winter gear and household essentials, and want them ready on arrival without buying new or hunting through strangers' listings.
-- **Graduating MBA2s** are leaving Ann Arbor in May. They have a full apartment of things to get rid of, during finals and a cross-country or international move.
+**This launch targets current Ross students, not incoming ones.** The site is shared in mid-November 2026.
 
-Both sides are in the middle of a stressful move. They value trust (only classmates), convenience and fair prices.
+- **MBA2s (main target).** They graduate in May 2027 and must sell or move everything. The problem is six months away, so it isn't top of mind yet. They are the supply side and the sign-up we most want.
+- **MBA1s (secondary).** They remember how painful it was to furnish an apartment in August, and they'll be the sellers next year. Today they're also buyers of winter gear.
+- **Incoming MBA1s (Class of 2029)** are the eventual buyers of May listings. They aren't the audience for this launch.
+
+The site has a "Who are you?" toggle (MBA2 by default, MBA1 as the alternative). It changes the hero headline and subhead and the section order, and is recorded as `segment` on every CTA.
+
+## Launch Strategy
+
+- **Timely hook:** winter is starting in Ann Arbor, and students need parkas, boots and ski gear now. Winter gear listings earn the click today.
+- **Real ask:** the May move-out problem earns the sign-up. The three models are framed from the seller's side as answers to "What do I do with my things in May?"
+- **Not ready yet:** students who don't feel the problem yet get one quiet "Remind me in March" option (`intent=remind`) rather than pressure.
 
 ## Product Purpose
 
@@ -43,17 +52,18 @@ The difference is a closed, trusted community plus logistics timed to the MBA ca
 
 ## Operating Context
 
-- Visitors arrive from a link in class channels or WhatsApp groups, usually on a phone, often mid-task.
-- CTAs open Google Forms in a new tab, with `source`, `model` and `item` passed as URL params and prefilled form fields.
+- Visitors arrive in mid-November from Ross Slack channels (`?src=slack`) and an MBA-wide email (`?src=email`), usually on a phone and often mid-task. Any other visit is `src=direct`.
+- CTAs open Google Forms in a new tab. Every CTA URL and GA4 `cta_click` event carries `src`, `segment` (`mba1`/`mba2`) and `model`, plus `item` and `intent` (`remind`) when relevant. The constant `source=ross-resale-site` also stays on every URL.
 - The forms are restricted to University of Michigan Google accounts. The site itself is public.
 - Configuration (form URLs, entry IDs, GA4 ID) lives in the `CONFIG` object at the top of `app.js`.
 
 ## Capabilities and Constraints
 
-- 12 mock listings across the categories Furniture, Winter Gear, Kitchen, Electronics and Other, with client-side filtering.
-- Each listing shows a title, a price, the seller's class year (MBA2), "Available Aug pickup" and a Reserve CTA.
-- Three model offers, each with a description, an illustrative price and a "Join waitlist" CTA.
-- The illustrative prices are hypotheses being tested, not commitments: 10% buyer fee (marketplace); $49 pickup + 20% of sale (storage); about $1,500 bundle with a $99 seller listing fee (apartment).
+- Winter-gear Reserve clicks are tracked with `model=none` so they never count toward a model. Only the furniture "May listing" Reserves count as `marketplace`.
+- 12 mock listings in a "Winter gear from classmates" section, mostly winter items plus a few furniture items shown as examples of May listings. Client-side category filters and a Reserve CTA on each.
+- Three model offers, written from the seller's point of view, each with an illustrative price and a "Join the waitlist" CTA.
+- The illustrative prices are hypotheses being tested, not commitments: 10% of the sale (marketplace); $15 per item + 25% of the sale (storage); 10% of the sale, shown with an example full one-bedroom setup listed at $1,500 (apartment). All three price lines are stated as seller fees so they can be compared.
+- A "Remind me in March" link opens the waitlist form with `intent=remind`.
 - No localStorage, accounts or payments.
 - The footer must state: "Pretotype for a Ross MBA class project. No real transactions."
 - All three models should get comparable visual weight, so the page design doesn't bias which one gets clicked.
@@ -62,6 +72,7 @@ The difference is a closed, trusted community plus logistics timed to the MBA ca
 
 - **Name:** Ross Resale.
 - **Voice:** warm, sharp and peer-to-peer, as if a classmate built it rather than a corporation. Short sentences. No hype, no exclamation marks, no corporate buzzwords ("revolutionize," "seamless," "unlock").
+- **Tone:** calm and practical, never urgent. No countdown timers, no "Don't miss out," no scarcity or FOMO language. The deadline (May) is stated as a fact, not as pressure.
 - **Emotional goal:** calm, like a deep breath during a stressful move. Settled, quiet and trustworthy.
 - **Colors:** Michigan-inspired navy (#00274C) as the primary color, with maize (#FFCB05) as a sparing accent. It must not read as official university branding.
 - **No Ross or University of Michigan logos or marks.** Keep the "Not affiliated with or endorsed by the University of Michigan" disclaimer.

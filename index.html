@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Ross Resale</title>
-  <meta name="description" content="Resale between Ross MBA classmates. Reserve before you arrive, we hold it over summer, pick it up at orientation.">
+  <meta name="description" content="Sell your things to the next Ross class with one drop-off in May. Plus winter gear from classmates, now.">
   <meta name="theme-color" content="#F5F4EF">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,68 +12,85 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <a class="skip" href="#listings">Skip to listings</a>
+  <a class="skip" href="#main">Skip to content</a>
 
   <header class="topbar" id="topbar">
     <div class="wrap topbar-inner">
       <a class="wordmark" href="#top">Ross Resale</a>
       <nav class="topnav" aria-label="Sections">
-        <a href="#listings">Listings</a>
+        <a href="#listings">Winter gear</a>
         <a href="#waitlist">Waitlist</a>
       </nav>
     </div>
   </header>
 
-  <main id="top">
-    <section class="hero">
+  <main id="main">
+    <section class="hero" id="top">
       <div class="wrap">
-        <h1 class="hero-title">Move in with what your <span class="mark">classmates</span> leave behind.</h1>
-        <p class="hero-lede">A resale board just for Ross MBAs. Reserve from home, we hold it over the summer, and you pick it up at orientation.</p>
-        <div class="hero-actions">
-          <a class="btn btn-primary" href="#listings">Browse listings</a>
-          <a class="link-quiet" href="#waitlist">Help us decide what to build</a>
+        <h1 class="hero-title" id="hero-title" aria-live="polite">You leave in May. Your <span class="mark">couch</span> doesn’t have to come with you.</h1>
+
+        <div class="segment" role="group" aria-labelledby="segment-label">
+          <span class="segment-label" id="segment-label">Who are you?</span>
+          <div class="segment-options">
+            <button type="button" class="segment-btn" data-segment="mba2" aria-pressed="true">I'm an MBA2</button>
+            <button type="button" class="segment-btn" data-segment="mba1" aria-pressed="false">I'm an MBA1</button>
+          </div>
         </div>
+
+        <p class="hero-lede" id="hero-lede" aria-live="polite">Sell your things to the next Ross class with one drop-off in May. We hold them over the summer, and buyers collect in August.</p>
+
+        <div class="hero-actions" id="hero-actions"></div>
 
         <ol class="steps" aria-label="How it works">
           <li>
             <span class="step-num" aria-hidden="true">1</span>
             <h2 class="step-title">Reserve</h2>
-            <p>Incoming MBA1s browse and hold furniture, winter gear and essentials before they arrive in Ann Arbor.</p>
+            <p>The incoming class browses your things and reserves them before they arrive.</p>
           </li>
           <li>
             <span class="step-num" aria-hidden="true">2</span>
             <h2 class="step-title">Store</h2>
-            <p>Graduating MBA2s make one drop-off in May. Everything is held over the summer.</p>
+            <p>You make one drop-off in May. Everything is held over the summer.</p>
           </li>
           <li>
             <span class="step-num" aria-hidden="true">3</span>
             <h2 class="step-title">Collect</h2>
-            <p>Pick up at orientation in August, or arrange delivery to your new place.</p>
+            <p>Buyers pick up at orientation in August, or arrange delivery.</p>
           </li>
         </ol>
       </div>
     </section>
 
-    <section id="listings" class="section" aria-labelledby="listings-title">
-      <div class="wrap">
-        <div class="section-head">
-          <h2 id="listings-title" class="section-title">Available for August pickup</h2>
-          <p class="section-sub">Sample listings from graduating MBA2s. Prices are what a classmate might ask.</p>
+    <div id="flow">
+      <section id="waitlist" class="section section-band" aria-labelledby="waitlist-title">
+        <div class="wrap">
+          <div class="section-head">
+            <h2 id="waitlist-title" class="section-title">What will you do with your things in May?</h2>
+            <p class="section-sub">Three ways this could work. Join the waitlist for the one you'd use. No payment, just a few questions.</p>
+          </div>
+          <div class="models" id="models"></div>
         </div>
-        <div class="filters" role="group" aria-label="Filter listings by category" id="filters"></div>
-        <div class="grid" id="grid" aria-live="polite"></div>
-      </div>
-    </section>
+      </section>
 
-    <section id="waitlist" class="section section-band" aria-labelledby="waitlist-title">
-      <div class="wrap">
-        <div class="section-head">
-          <h2 id="waitlist-title" class="section-title">Which would you actually use?</h2>
-          <p class="section-sub">We're testing three ways to run this. Join the waitlist for the one that fits you. No payment, just a few questions.</p>
+      <section id="listings" class="section" aria-labelledby="listings-title">
+        <div class="wrap">
+          <div class="section-head">
+            <h2 id="listings-title" class="section-title">Winter gear from classmates</h2>
+            <p class="section-sub">Ann Arbor winter has started. Coats, boots and ski gear from classmates nearby, plus a few things they plan to sell in May.</p>
+          </div>
+          <div class="filters" role="group" aria-label="Filter listings by category" id="filters"></div>
+          <div class="grid" id="grid" aria-live="polite"></div>
         </div>
-        <div class="models" id="models"></div>
+      </section>
+    </div>
+
+    <aside class="remind" aria-label="Reminder">
+      <div class="wrap remind-inner">
+        <p>Not a problem for you yet? It will be in May.</p>
+        <a class="link-quiet" id="remind-link" href="#" target="_blank" rel="noopener"
+           data-cta="remind" data-form="remind" data-model="undecided" data-intent="remind">Remind me in March</a>
       </div>
-    </section>
+    </aside>
   </main>
 
   <footer class="footer">

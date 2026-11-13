@@ -3,103 +3,137 @@
    ========================================================================= */
 const CONFIG = {
   // Google Form links (the "Send > link" URL, ending in /viewform).
+  // "remind" is the "Remind me in March" link. It can point at its own form
+  // or reuse one of the model forms (intent=remind tells them apart).
   forms: {
     marketplace: "https://docs.google.com/forms/d/e/REPLACE_ME_MARKETPLACE/viewform",
     storage:     "https://docs.google.com/forms/d/e/REPLACE_ME_STORAGE/viewform",
     apartment:   "https://docs.google.com/forms/d/e/REPLACE_ME_APARTMENT/viewform",
     reserve:     "https://docs.google.com/forms/d/e/REPLACE_ME_RESERVE/viewform",
+    remind:      "https://docs.google.com/forms/d/e/REPLACE_ME_REMIND/viewform",
   },
 
   // Optional prefill entry IDs, per form. Leave "" to skip a field.
-  // Example: source: "entry.123456789"  -> appends &entry.123456789=ross-resale-site
+  // Example: segment: "entry.123456789"  -> appends &entry.123456789=mba2
   // Each form has its own IDs, so fill these in per form (see README).
   entryIds: {
-    marketplace: { source: "", model: "", item: "" },
-    storage:     { source: "", model: "", item: "" },
-    apartment:   { source: "", model: "", item: "" },
-    reserve:     { source: "", model: "", item: "" },
+    marketplace: { source: "", src: "", segment: "", model: "", item: "", intent: "" },
+    storage:     { source: "", src: "", segment: "", model: "", item: "", intent: "" },
+    apartment:   { source: "", src: "", segment: "", model: "", item: "", intent: "" },
+    reserve:     { source: "", src: "", segment: "", model: "", item: "", intent: "" },
+    remind:      { source: "", src: "", segment: "", model: "", item: "", intent: "" },
   },
 
   // Google Analytics 4 measurement ID, e.g. "G-ABC123XYZ". Leave "" to disable GA.
   ga4Id: "",
 
   source: "ross-resale-site",
+  defaultSrc: "direct",
+  defaultSegment: "mba2",
 };
 /* ========================================================================= */
 
 /* Line icons: 24px grid, 1.5px stroke, currentColor (see DESIGN.md > Shapes). */
 const ICONS = {
-  sofa:     '<path d="M4 11V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3"/><path d="M2 13a2 2 0 0 1 4 0v2h12v-2a2 2 0 0 1 4 0v4a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/><path d="M5 18v2M19 18v2"/>',
-  desk:     '<rect x="8" y="3" width="8" height="5" rx="1"/><path d="M12 8v1M3 9h18M5 9v11M19 9v11M14 9v6h5"/>',
-  bed:      '<path d="M3 5v14M21 19v-5a3 3 0 0 0-3-3h-8v5M3 16h18"/><circle cx="6.5" cy="12.5" r="1.5"/>',
-  coat:     '<path d="M9 3l3 3 3-3 4 2 2 7-3 1v8H6v-8l-3-1 2-7z"/><path d="M12 6v15"/>',
-  skis:     '<path d="M5 21L15 3M10 21L20 3"/><path d="M3 21h4M8 21h4"/>',
-  boot:     '<path d="M6 3h7v8l5 2.5A3 3 0 0 1 20 16v3H6z"/><path d="M6 15h14"/>',
-  monitor:  '<rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M12 16v4M8 20h8"/>',
-  purifier: '<rect x="6" y="3" width="12" height="18" rx="3"/><circle cx="12" cy="12" r="3"/><path d="M9.5 6.5h5"/>',
-  pot:      '<path d="M4 10h16v6a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4z"/><path d="M2 10h2M20 10h2M9.5 6.5c0-1 1-1.2 1-2.5M13.5 6.5c0-1 1-1.2 1-2.5"/>',
-  plate:    '<circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="3"/><path d="M3 4v16M21 4c-1.5 1-2 3-2 6h2v10"/>',
-  bike:     '<circle cx="6" cy="16" r="3.5"/><circle cx="18" cy="16" r="3.5"/><path d="M6 16l4-8h5l3 8M10 8l3 8H6M8.5 6h3M15 8l-1-3h2"/>',
-  rug:      '<rect x="4" y="6" width="16" height="12" rx="1"/><rect x="7.5" y="9" width="9" height="6" rx=".5"/><path d="M4 9H2M4 12H2M4 15H2M20 9h2M20 12h2M20 15h2"/>',
+  coat:      '<path d="M9 3l3 3 3-3 4 2 2 7-3 1v8H6v-8l-3-1 2-7z"/><path d="M12 6v15"/>',
+  boot:      '<path d="M6 3h7v8l5 2.5A3 3 0 0 1 20 16v3H6z"/><path d="M6 15h14"/>',
+  skis:      '<path d="M5 21L15 3M10 21L20 3"/><path d="M3 21h4M8 21h4"/>',
+  board:     '<path d="M5.5 19.5a2.5 2.5 0 0 1-1-3.4l9-11a2.5 2.5 0 0 1 3.9 3.1l-9 11a2.5 2.5 0 0 1-2.9.3z"/><path d="M9 13l2 1.5M12.5 9l2 1.5"/>',
+  scraper:   '<path d="M4.5 19.5l7-7"/><path d="M9.5 10.5l4 4 6-6-4-4z"/><path d="M14 6l4 4"/>',
+  heater:    '<rect x="4" y="5" width="16" height="13" rx="2"/><path d="M8 9v5M12 9v5M16 9v5M7 18v2M17 18v2"/>',
+  humid:     '<path d="M7 9h10l-1 11H8z"/><path d="M12 3c-1 1.5-2 2.6-2 3.6a2 2 0 0 0 4 0c0-1-1-2.1-2-3.6z"/>',
+  sofa:      '<path d="M4 11V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3"/><path d="M2 13a2 2 0 0 1 4 0v2h12v-2a2 2 0 0 1 4 0v4a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/><path d="M5 18v2M19 18v2"/>',
+  desk:      '<rect x="8" y="3" width="8" height="5" rx="1"/><path d="M12 8v1M3 9h18M5 9v11M19 9v11M14 9v6h5"/>',
+  bed:       '<path d="M3 5v14M21 19v-5a3 3 0 0 0-3-3h-8v5M3 16h18"/><circle cx="6.5" cy="12.5" r="1.5"/>',
 };
 const icon = (name) =>
   `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name]}</svg>`;
 
+/* when: "now" = available to pick up now; "may" = example of a May move-out listing */
 const LISTINGS = [
-  { slug: "sofa-3-seat",     title: "Three-seat sofa, grey",            price: 220, was: 900, cat: "furniture",   icon: "sofa" },
-  { slug: "standing-desk",   title: "Electric standing desk",           price: 180, was: 450, cat: "furniture",   icon: "desk" },
-  { slug: "queen-bed-frame", title: "Queen bed frame and mattress",     price: 250, was: 900, cat: "furniture",   icon: "bed" },
-  { slug: "down-parka-m",    title: "Down winter parka, men's M",       price: 150, was: 700, cat: "winter",      icon: "coat" },
-  { slug: "ski-set-boots",   title: "Skis, boots and poles",            price: 200, was: 650, cat: "winter",      icon: "skis" },
-  { slug: "snow-boots-w8",   title: "Insulated snow boots, women's 8",  price: 45,  was: 160, cat: "winter",      icon: "boot" },
-  { slug: "monitor-27-4k",   title: "27-inch 4K monitor",               price: 140, was: 330, cat: "electronics", icon: "monitor" },
-  { slug: "air-purifier",    title: "HEPA air purifier",                price: 60,  was: 150, cat: "electronics", icon: "purifier" },
-  { slug: "cookware-set",    title: "Cookware and knife set",           price: 70,  was: 220, cat: "kitchen",     icon: "pot" },
-  { slug: "kitchen-starter", title: "Kitchen starter kit",              price: 55,  was: 180, cat: "kitchen",     icon: "plate", tag: "Bundle" },
-  { slug: "commuter-bike",   title: "Hybrid commuter bike with lock",   price: 160, was: 520, cat: "other",       icon: "bike" },
-  { slug: "area-rug-5x8",    title: "5×8 rug and floor lamp",           price: 65,  was: 210, cat: "other",       icon: "rug",   tag: "Bundle" },
+  { slug: "down-parka-m",       title: "Down parka, men's M",              price: 150, was: 700, cat: "outerwear", icon: "coat",    when: "now" },
+  { slug: "long-down-coat-s",   title: "Long down coat, women's S",        price: 140, was: 550, cat: "outerwear", icon: "coat",    when: "now" },
+  { slug: "snow-boots-w8",      title: "Insulated snow boots, women's 8",  price: 45,  was: 160, cat: "outerwear", icon: "boot",    when: "now" },
+  { slug: "winter-boots-m11",   title: "Waterproof winter boots, men's 11", price: 55, was: 190, cat: "outerwear", icon: "boot",    when: "now" },
+  { slug: "ski-set-boots",      title: "Skis, boots and poles",            price: 200, was: 650, cat: "snow",      icon: "skis",    when: "now" },
+  { slug: "snowboard-bindings", title: "Snowboard with bindings",          price: 180, was: 520, cat: "snow",      icon: "board",   when: "now" },
+  { slug: "snow-brush-scraper", title: "Car snow brush and ice scraper",   price: 10,  was: 30,  cat: "home",      icon: "scraper", when: "now" },
+  { slug: "space-heater",       title: "Ceramic space heater",             price: 30,  was: 70,  cat: "home",      icon: "heater",  when: "now" },
+  { slug: "humidifier",         title: "Cool-mist humidifier",             price: 25,  was: 60,  cat: "home",      icon: "humid",   when: "now" },
+  { slug: "sofa-3-seat",        title: "Three-seat sofa, grey",            price: 220, was: 900, cat: "furniture", icon: "sofa",    when: "may" },
+  { slug: "standing-desk",      title: "Electric standing desk",           price: 180, was: 450, cat: "furniture", icon: "desk",    when: "may" },
+  { slug: "queen-bed-frame",    title: "Queen bed frame and mattress",     price: 250, was: 900, cat: "furniture", icon: "bed",     when: "may" },
 ];
 
 const CATEGORIES = [
-  { id: "all",         label: "All" },
-  { id: "furniture",   label: "Furniture" },
-  { id: "winter",      label: "Winter gear" },
-  { id: "kitchen",     label: "Kitchen" },
-  { id: "electronics", label: "Electronics" },
-  { id: "other",       label: "Other" },
+  { id: "all",       label: "All" },
+  { id: "outerwear", label: "Coats and boots" },
+  { id: "snow",      label: "Ski and snowboard" },
+  { id: "home",      label: "Around the house" },
+  { id: "furniture", label: "Furniture (May)" },
 ];
+const TILE = { outerwear: "tile-winter", snow: "tile-snow", home: "tile-home", furniture: "tile-furniture" };
 
 const MODELS = [
   {
     id: "marketplace",
-    name: "Pre-arrival marketplace",
-    desc: "Browse what MBA2s are selling and reserve it before you land. Sellers handle their own storage.",
-    facts: ["Reserve online, pay at pickup", "Ross buyers and sellers only", "Pick up at orientation"],
-    price: "10% fee",
-    note: "Paid by the buyer. Free to list.",
+    name: "Marketplace",
+    lead: "List now. Sell to the incoming class before you leave.",
+    facts: ["You set the price", "Incoming students reserve before they arrive", "You meet your buyer or use the May drop-off"],
+    price: "10% of the sale",
+    note: "Taken only when it sells. Free to list.",
   },
   {
     id: "storage",
-    name: "Full-service storage",
-    desc: "We pick up your things in May, store them over the summer, sell them and hand them off in August.",
-    facts: ["One pickup from your apartment", "Stored over the summer", "We photograph, price and sell"],
-    price: "$49 + 20%",
-    note: "Pickup fee, plus 20% of the sale price.",
+    name: "Storage and resale",
+    lead: "One drop-off. We store it, sell it, and send you the money.",
+    facts: ["One drop-off in May", "We photograph, price and list it", "Paid out when it sells, after you've left"],
+    price: "$15 per item + 25%",
+    note: "Item fee at drop-off, 25% when it sells. Unsold items are donated.",
   },
   {
     id: "apartment",
-    name: "Whole-apartment transfer",
-    desc: "Buy or sell a complete furnished setup as one bundle. Move in with everything already there.",
-    facts: ["Furniture, kitchen and essentials", "One seller, one buyer", "Stays in place, no moving"],
-    price: "About $1,500",
-    note: "Typical one-bedroom setup. $99 listing fee for sellers.",
+    name: "Apartment transfer",
+    lead: "Hand off your whole apartment setup to one incoming student.",
+    facts: ["Furniture, kitchen and essentials together", "One buyer, one handoff", "Nothing to sort, pack or list item by item"],
+    price: "10% of the sale",
+    note: "Example: full 1BR setup, listed at $1,500.",
   },
 ];
 
+const SEGMENTS = {
+  mba2: {
+    headline: 'You leave in May. Your <span class="mark">couch</span> doesn’t have to come with you.',
+    lede: "Sell your things to the next Ross class with one drop-off in May. We hold them over the summer, and buyers collect in August.",
+    order: ["waitlist", "listings"],
+    actions: [
+      { href: "#waitlist", label: "See the options", primary: true },
+      { href: "#listings", label: "Browse winter gear" },
+    ],
+  },
+  mba1: {
+    headline: 'Next May, your <span class="mark">couch</span> doesn’t have to come with you.',
+    lede: "Remember furnishing your place in August? Next year you're the seller. For now, here's winter gear from classmates.",
+    order: ["listings", "waitlist"],
+    actions: [
+      { href: "#listings", label: "Browse winter gear", primary: true },
+      { href: "#waitlist", label: "See how selling could work" },
+    ],
+  },
+};
+
+/* ---------- State from the page URL ---------- */
+const pageParams = new URLSearchParams(window.location.search);
+const clean = (v) => (v || "").toLowerCase().replace(/[^a-z0-9_-]/g, "").slice(0, 32);
+const state = {
+  src: clean(pageParams.get("src")) || CONFIG.defaultSrc,
+  segment: SEGMENTS[clean(pageParams.get("segment"))] ? clean(pageParams.get("segment")) : CONFIG.defaultSegment,
+  category: "all",
+};
+
 /* ---------- Tracking helpers ---------- */
 function buildFormUrl(formKey, params) {
-  const base = CONFIG.forms[formKey];
-  const url = new URL(base);
+  const url = new URL(CONFIG.forms[formKey]);
   const ids = CONFIG.entryIds[formKey] || {};
   let hasPrefill = false;
   Object.entries(params).forEach(([key, value]) => {
@@ -112,6 +146,24 @@ function buildFormUrl(formKey, params) {
   });
   if (hasPrefill) url.searchParams.set("usp", "pp_url");
   return url.toString();
+}
+
+function ctaParams(a) {
+  return {
+    source: CONFIG.source,
+    src: state.src,
+    segment: state.segment,
+    model: a.dataset.model,
+    item: a.dataset.item || "",
+    intent: a.dataset.intent || "",
+  };
+}
+
+/* Every CTA is a real link; its href is rebuilt whenever the segment changes. */
+function refreshCtaLinks() {
+  document.querySelectorAll("a[data-cta]").forEach((a) => {
+    a.href = buildFormUrl(a.dataset.form, ctaParams(a));
+  });
 }
 
 function isPlaceholder(url) {
@@ -133,13 +185,17 @@ function initGA() {
   } catch (e) { /* never block the page on analytics */ }
 }
 
-function trackClick(data) {
+function trackClick(a) {
   if (typeof window.gtag !== "function") return;
+  const p = ctaParams(a);
   try {
     window.gtag("event", "cta_click", {
-      cta: data.cta,
-      model: data.model,
-      item: data.item || "(none)",
+      cta: a.dataset.cta,
+      src: p.src,
+      segment: p.segment,
+      model: p.model,
+      item: p.item || "(none)",
+      intent: p.intent || "(none)",
       transport_type: "beacon",
     });
   } catch (e) { /* ignore */ }
@@ -151,63 +207,89 @@ const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&
 const catLabel = (id) => (CATEGORIES.find((c) => c.id === id) || {}).label || id;
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-function ctaLink({ formKey, model, item, cta, label, extraLabel }) {
-  const href = buildFormUrl(formKey, { source: CONFIG.source, model, item });
-  const aria = extraLabel ? ` aria-label="${esc(label + ": " + extraLabel)}"` : "";
-  return `<a class="btn btn-primary btn-block" href="${esc(href)}" target="_blank" rel="noopener"${aria}
-            data-cta="${esc(cta)}" data-model="${esc(model)}" data-item="${esc(item || "")}">${esc(label)}</a>`;
+function ctaLink({ form, model, item, cta, label, context }) {
+  return `<a class="btn btn-primary btn-block" href="#" target="_blank" rel="noopener"
+            aria-label="${esc(label + ": " + context)}"
+            data-cta="${esc(cta)}" data-form="${esc(form)}" data-model="${esc(model)}" data-item="${esc(item || "")}">${esc(label)}</a>`;
 }
 
-function renderFilters(active) {
+function renderFilters() {
   $("#filters").innerHTML = CATEGORIES.map((c) =>
-    `<button type="button" class="filter" data-cat="${c.id}" aria-pressed="${c.id === active}">${esc(c.label)}</button>`
+    `<button type="button" class="filter" data-cat="${c.id}" aria-pressed="${c.id === state.category}">${esc(c.label)}</button>`
   ).join("");
 }
 
-function gridHtml(active) {
-  const items = LISTINGS.filter((l) => active === "all" || l.cat === active);
+function gridHtml() {
+  const items = LISTINGS.filter((l) => state.category === "all" || l.cat === state.category);
   if (!items.length) return `<p class="empty">Nothing in this category yet.</p>`;
   return items.map((l) => `
     <article class="card">
-      <div class="tile tile-${l.cat}">${icon(l.icon)}</div>
+      <div class="tile ${TILE[l.cat]}">${icon(l.icon)}</div>
       <div class="card-body">
-        <p class="card-cat">${esc(catLabel(l.cat))}</p>
+        <p class="card-cat">${esc(l.when === "may" ? "Furniture" : catLabel(l.cat))}</p>
         <h3 class="card-title">${esc(l.title)}</h3>
         <div class="card-price">
           <span class="price">$${l.price}</span>
           <span class="price-was">about $${l.was} new</span>
-          ${l.tag ? `<span class="tag">${esc(l.tag)}</span>` : ""}
+          ${l.when === "may" ? `<span class="tag">May listing</span>` : ""}
         </div>
-        <p class="card-meta">MBA2 seller · Available Aug pickup</p>
+        <p class="card-meta">${l.when === "may" ? "MBA2 seller · Available in May" : "Classmate seller · In Ann Arbor now"}</p>
         <div class="card-actions">
-          ${ctaLink({ formKey: "reserve", model: "marketplace", item: l.slug, cta: "reserve", label: "Reserve", extraLabel: l.title })}
+          ${ctaLink({ form: "reserve", model: l.when === "may" ? "marketplace" : "none", item: l.slug, cta: "reserve", label: "Reserve", context: l.title })}
         </div>
       </div>
     </article>`).join("");
 }
 
-function renderGrid(active, animate) {
+function renderGrid(animate) {
   const grid = $("#grid");
-  if (!animate || reducedMotion) { grid.innerHTML = gridHtml(active); return; }
+  const paint = () => { grid.innerHTML = gridHtml(); refreshCtaLinks(); };
+  if (!animate || reducedMotion) { paint(); return; }
   grid.classList.add("is-fading");
-  setTimeout(() => {
-    grid.innerHTML = gridHtml(active);
-    grid.classList.remove("is-fading");
-  }, 240);
+  setTimeout(() => { paint(); grid.classList.remove("is-fading"); }, 240);
 }
 
 function renderModels() {
   $("#models").innerHTML = MODELS.map((m) => `
     <article class="model">
       <h3 class="model-name">${esc(m.name)}</h3>
-      <p class="model-desc">${esc(m.desc)}</p>
+      <p class="model-lead">${esc(m.lead)}</p>
       <ul class="facts">${m.facts.map((f) => `<li>${esc(f)}</li>`).join("")}</ul>
       <div class="model-price">
         <span class="price">${esc(m.price)}</span>
         <p class="model-note">${esc(m.note)}</p>
       </div>
-      ${ctaLink({ formKey: m.id, model: m.id, item: "", cta: "waitlist", label: "Join the waitlist", extraLabel: m.name })}
+      ${ctaLink({ form: m.id, model: m.id, item: "", cta: "waitlist", label: "Join the waitlist", context: m.name })}
     </article>`).join("");
+}
+
+function applySegment(animate) {
+  const seg = SEGMENTS[state.segment];
+  document.querySelectorAll(".segment-btn").forEach((b) =>
+    b.setAttribute("aria-pressed", String(b.dataset.segment === state.segment)));
+  $("#hero-actions").innerHTML = seg.actions.map((a) =>
+    a.primary
+      ? `<a class="btn btn-primary" href="${a.href}">${esc(a.label)}</a>`
+      : `<a class="link-quiet" href="${a.href}">${esc(a.label)}</a>`
+  ).join("");
+
+  const paint = () => {
+    $("#hero-title").innerHTML = seg.headline;
+    $("#hero-lede").textContent = seg.lede;
+    const flow = $("#flow");
+    seg.order.forEach((id) => flow.appendChild(document.getElementById(id)));
+    refreshCtaLinks();
+  };
+  if (!animate || reducedMotion) { paint(); return; }
+  $("#hero-title").classList.add("is-fading");
+  $("#hero-lede").classList.add("is-fading");
+  $("#flow").classList.add("is-fading");
+  setTimeout(() => {
+    paint();
+    $("#hero-title").classList.remove("is-fading");
+    $("#hero-lede").classList.remove("is-fading");
+    $("#flow").classList.remove("is-fading");
+  }, 240);
 }
 
 let toastTimer;
@@ -222,27 +304,35 @@ function toast(msg) {
 /* ---------- Init ---------- */
 document.addEventListener("DOMContentLoaded", () => {
   initGA();
-  let active = "all";
-  renderFilters(active);
-  renderGrid(active, false);
+  renderFilters();
   renderModels();
+  renderGrid(false);
+  applySegment(false);
+
+  document.querySelector(".segment").addEventListener("click", (e) => {
+    const btn = e.target.closest(".segment-btn");
+    if (!btn || btn.dataset.segment === state.segment) return;
+    state.segment = btn.dataset.segment;
+    applySegment(true);
+  });
 
   $("#filters").addEventListener("click", (e) => {
     const btn = e.target.closest(".filter");
-    if (!btn || btn.dataset.cat === active) return;
-    active = btn.dataset.cat;
-    renderFilters(active);
-    renderGrid(active, true);
+    if (!btn || btn.dataset.cat === state.category) return;
+    state.category = btn.dataset.cat;
+    renderFilters();
+    renderGrid(true);
   });
 
   document.addEventListener("click", (e) => {
     const a = e.target.closest("a[data-cta]");
     if (!a) return;
-    trackClick({ cta: a.dataset.cta, model: a.dataset.model, item: a.dataset.item });
+    a.href = buildFormUrl(a.dataset.form, ctaParams(a)); // always current
+    trackClick(a);
     if (isPlaceholder(a.href)) {
       e.preventDefault();
       toast("This form isn't connected yet.");
-      console.info("[Ross Resale] Add the Google Form URL for '" + a.dataset.cta + "/" + a.dataset.model + "' in CONFIG (app.js).");
+      console.info("[Ross Resale] Add the Google Form URL for '" + a.dataset.form + "' in CONFIG (app.js).");
     }
   });
 

@@ -120,12 +120,21 @@ components:
   listing-tile:
     backgroundColor: "{colors.tile-fog}"
     rounded: "{rounded.md}"
-  price-tag:
-    backgroundColor: "{colors.maize}"
-    textColor: "{colors.navy-ink}"
-    typography: "{typography.label}"
+  tag:
+    backgroundColor: "transparent"
+    textColor: "{colors.slate}"
+    typography: "{typography.meta}"
     rounded: "{rounded.sm}"
     padding: "2px 8px"
+  segment-btn:
+    backgroundColor: "transparent"
+    textColor: "{colors.slate}"
+    typography: "{typography.body-small}"
+    rounded: "{rounded.sm}"
+    padding: "8px 14px"
+  segment-btn-active:
+    backgroundColor: "{colors.navy-ink}"
+    textColor: "{colors.surface}"
 ---
 
 # Design System: Ross Resale
@@ -163,7 +172,7 @@ The palette is two inks on two papers, plus one maize mark. All neutrals are tin
 Flat, muted, solid fills, one per category: Furniture `tile-sand`, Winter Gear `tile-fog`, Kitchen `tile-clay`, Electronics `tile-stone`, Other `tile-sage`. Each carries a single navy line icon at about 70% opacity.
 
 ### Named Rules
-- **The Maize Budget.** At most three maize marks are visible on any one screen. Approved uses: (1) the underline on one word of the hero headline, (2) the active filter's 2px underline, (3) small price tags on listings. Never a button fill, section background, large block or text color on paper (it fails contrast).
+- **The Maize Budget.** At most three maize marks are visible on any one screen. Approved uses: (1) the underline on one word of the hero headline, (2) the active filter's 2px underline. Listing tags are neutral (hairline outline), not maize, so a row of cards never breaks the budget. Never a button fill, section background, large block or text color on paper (it fails contrast).
 - **No gradients, anywhere.** Not in backgrounds, buttons, text or tiles. No glass, blur, glow, mesh or blobs.
 - **No purple.** Any tint that drifts violet (including blue-purple "stone") gets corrected toward neutral gray-blue.
 
@@ -238,10 +247,16 @@ Slow and minimal. Opacity fades only.
 Text tabs, not chips. Inactive filters use slate body-small; hover turns them navy-ink. The active filter is navy-ink with a 2px maize underline offset 6px below the baseline (one of the maize marks). They are `button` elements with `aria-pressed`.
 
 ### Listing card
-`surface` background, 1px hairline border, 14px corners, 12px inner padding around the tile. Top: a flat category-colored tile (4:3, 10px corners) with a centered navy line icon. Below, in order: title (serif), price (serif) with an optional small maize price tag for notable deals, "MBA2 seller · Available Aug pickup" in muted body-small, then a full-width primary "Reserve" button. Show the original new price as muted strikethrough only if it is labeled as an estimate.
+`surface` background, 1px hairline border, 14px corners, 12px inner padding around the tile. Top: a flat category-colored tile (4:3, 10px corners) with a centered navy line icon. Below, in order: title (serif), price (serif) with an optional neutral tag (1px hairline outline, slate text, e.g. "May listing"), "MBA2 seller · Available Aug pickup" in muted body-small, then a full-width primary "Reserve" button. Show the original new price as muted strikethrough only if it is labeled as an estimate.
 
 ### Model column (signature component)
 Three equal columns in the paper-blue band. Each column has the model name (title serif), a two-sentence description (slate body), three short facts as a hairline-ruled list (no bullets or icons), the illustrative price (price serif) with a one-line note (muted body-small), and a primary "Join the waitlist" button aligned to the column bottom. No icon above the name. No "most popular" badge or highlighted column: it would bias the test.
+
+### Segment toggle
+"Who are you?" in slate body-small, followed by a two-option segmented control: a surface-colored track with a 1px hairline border and 10px corners, holding two buttons. The active option is filled navy-ink with surface text, and the inactive one is slate on transparent. Buttons use `aria-pressed`. Switching crossfades the hero subhead and the section order (240ms, opacity only). It sits directly under the hero headline.
+
+### Remind line
+A single quiet line above the footer, separated by a hairline: slate text plus a quiet underlined link. No box, no button, no maize.
 
 ### Navigation
 Paper-colored top bar, 56px tall. The wordmark "Ross Resale" is set in Newsreader 500, and is not a logo mark or monogram square. Two quiet text links on the right: "Listings" and "Waitlist".
