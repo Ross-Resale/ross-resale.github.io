@@ -4,19 +4,22 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Ross Resale</title>
-  <meta name="description" content="Student-to-student resale for Ross MBAs. Reserve before you arrive, store over summer, collect at orientation.">
+  <meta name="description" content="Resale between Ross MBA classmates. Reserve before you arrive, we hold it over summer, pick it up at orientation.">
+  <meta name="theme-color" content="#F5F4EF">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&family=Newsreader:opsz,wght@6..72,350;6..72,400;6..72,500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header class="topbar">
+  <a class="skip" href="#listings">Skip to listings</a>
+
+  <header class="topbar" id="topbar">
     <div class="wrap topbar-inner">
-      <a class="brand" href="#top"><span class="brand-mark">R</span> Ross Resale</a>
-      <nav class="topnav">
-        <a href="#market">Browse</a>
-        <a href="#models">Join waitlist</a>
+      <a class="wordmark" href="#top">Ross Resale</a>
+      <nav class="topnav" aria-label="Sections">
+        <a href="#listings">Listings</a>
+        <a href="#waitlist">Waitlist</a>
       </nav>
     </div>
   </header>
@@ -24,50 +27,59 @@
   <main id="top">
     <section class="hero">
       <div class="wrap">
-        <h1>Ross Resale</h1>
-        <p class="lede">Buy your Ann Arbor setup from the MBA2s leaving it behind. Ross MBAs only. Less hassle, lower cost, less waste.</p>
-        <ol class="steps">
-          <li><span class="step-num">1</span><div><strong>Reserve</strong><span>Incoming MBA1s browse and reserve furniture, winter gear and essentials before arriving.</span></div></li>
-          <li><span class="step-num">2</span><div><strong>Store</strong><span>Graduating MBA2s make one drop-off in May. Items are held over the summer.</span></div></li>
-          <li><span class="step-num">3</span><div><strong>Collect</strong><span>Pick up at orientation in August, or arrange delivery to your new place.</span></div></li>
-        </ol>
-        <div class="hero-ctas">
-          <a class="btn btn-maize" href="#market">Browse listings</a>
-          <a class="btn btn-ghost" href="#models">Which option fits you?</a>
+        <h1 class="hero-title">Move in with what your <span class="mark">classmates</span> leave behind.</h1>
+        <p class="hero-lede">A resale board just for Ross MBAs. Reserve from home, we hold it over the summer, and you pick it up at orientation.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#listings">Browse listings</a>
+          <a class="link-quiet" href="#waitlist">Help us decide what to build</a>
         </div>
+
+        <ol class="steps" aria-label="How it works">
+          <li>
+            <span class="step-num" aria-hidden="true">1</span>
+            <h2 class="step-title">Reserve</h2>
+            <p>Incoming MBA1s browse and hold furniture, winter gear and essentials before they arrive in Ann Arbor.</p>
+          </li>
+          <li>
+            <span class="step-num" aria-hidden="true">2</span>
+            <h2 class="step-title">Store</h2>
+            <p>Graduating MBA2s make one drop-off in May. Everything is held over the summer.</p>
+          </li>
+          <li>
+            <span class="step-num" aria-hidden="true">3</span>
+            <h2 class="step-title">Collect</h2>
+            <p>Pick up at orientation in August, or arrange delivery to your new place.</p>
+          </li>
+        </ol>
       </div>
     </section>
 
-    <section id="market" class="section">
+    <section id="listings" class="section" aria-labelledby="listings-title">
       <div class="wrap">
         <div class="section-head">
-          <div>
-            <h2>Available for August pickup</h2>
-            <p class="muted">Preview listings from graduating MBA2s.</p>
-          </div>
-          <div class="filters" role="group" aria-label="Filter by category" id="filters"></div>
+          <h2 id="listings-title" class="section-title">Available for August pickup</h2>
+          <p class="section-sub">Sample listings from graduating MBA2s. Prices are what a classmate might ask.</p>
         </div>
+        <div class="filters" role="group" aria-label="Filter listings by category" id="filters"></div>
         <div class="grid" id="grid" aria-live="polite"></div>
       </div>
     </section>
 
-    <section id="models" class="section section-alt">
+    <section id="waitlist" class="section section-band" aria-labelledby="waitlist-title">
       <div class="wrap">
-        <div class="section-head center">
-          <div>
-            <h2>How would you use Ross Resale?</h2>
-            <p class="muted">We're deciding what to build first. Join the waitlist for the one you'd actually use.</p>
-          </div>
+        <div class="section-head">
+          <h2 id="waitlist-title" class="section-title">Which would you actually use?</h2>
+          <p class="section-sub">We're testing three ways to run this. Join the waitlist for the one that fits you. No payment, just a few questions.</p>
         </div>
-        <div class="models" id="models-grid"></div>
+        <div class="models" id="models"></div>
       </div>
     </section>
   </main>
 
   <footer class="footer">
-    <div class="wrap">
+    <div class="wrap footer-inner">
       <p>Pretotype for a Ross MBA class project. No real transactions.</p>
-      <p class="muted small">Not affiliated with or endorsed by the University of Michigan.</p>
+      <p>Not affiliated with or endorsed by the University of Michigan.</p>
     </div>
   </footer>
 
