@@ -166,3 +166,24 @@ Then open http://localhost:8000.
 **Buyer interest stays separate** (`role=buyer`): Reserve clicks and Form D responses by `item`, plus Form D's "what else would you buy" answers. Never add these to the seller comparison.
 
 Note: one person can click more than one CTA, and nothing on the site deduplicates them. Form responses (one per verified umich email) are the cleaner count.
+
+## Photo credits
+
+The 12 example listing photos are free photos from [Unsplash](https://unsplash.com), used under the [Unsplash License](https://unsplash.com/license) (free to use, credit appreciated but not required). They load from Unsplash's image CDN, and each one's id and photographer handle are in `LISTINGS` in `app.js`.
+
+| Listing | Photographer |
+|---|---|
+| Three-seat sofa | [@hadyyazdi](https://unsplash.com/@hadyyazdi) |
+| Electric standing desk | [@ergonofis](https://unsplash.com/@ergonofis) |
+| Tall wooden bookshelf | [@pickawood](https://unsplash.com/@pickawood) |
+| 27-inch 4K monitor | [@martinkatler](https://unsplash.com/@martinkatler) |
+| Wireless laser printer | [@mahrous_houses](https://unsplash.com/@mahrous_houses) |
+| Nonstick pots and pans set | [@cookerking](https://unsplash.com/@cookerking) |
+| Drip coffee maker | [@ronan18](https://unsplash.com/@ronan18) |
+| HEPA air purifier | [@nicsandman20](https://unsplash.com/@nicsandman20) |
+| Patterned area rug | [@kesarihome](https://unsplash.com/@kesarihome) |
+| Hybrid commuter bike | [@zoltantasi](https://unsplash.com/@zoltantasi) |
+| Skis, boots and poles | [@dariendesigns](https://unsplash.com/@dariendesigns) |
+| White puffer jacket | [@cgxlmedia](https://unsplash.com/@cgxlmedia) |
+
+To swap a photo, find a free (not Unsplash+) photo, copy the `photo-…` id from its image URL, and replace `photo` (and `by`) on that listing.

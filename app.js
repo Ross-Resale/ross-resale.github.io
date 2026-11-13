@@ -30,38 +30,25 @@ const CONFIG = {
 };
 /* ========================================================================= */
 
-/* Line icons: 24px grid, 1.5px stroke, currentColor (see DESIGN.md > Shapes). */
-const ICONS = {
-  sofa:      '<path d="M4 11V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3"/><path d="M2 13a2 2 0 0 1 4 0v2h12v-2a2 2 0 0 1 4 0v4a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/><path d="M5 18v2M19 18v2"/>',
-  desk:      '<rect x="8" y="3" width="8" height="5" rx="1"/><path d="M12 8v1M3 9h18M5 9v11M19 9v11M14 9v6h5"/>',
-  shelf:     '<rect x="5" y="3" width="14" height="18" rx="1"/><path d="M5 9h14M5 15h14M8 5.5v3M10 5.5v3M14 11v3M16.5 17v2.5"/>',
-  monitor:   '<rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M12 16v4M8 20h8"/>',
-  printer:   '<path d="M7 9V3h10v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v7H7z"/>',
-  pot:       '<path d="M4 10h16v6a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4z"/><path d="M2 10h2M20 10h2M9.5 6.5c0-1 1-1.2 1-2.5M13.5 6.5c0-1 1-1.2 1-2.5"/>',
-  coffee:    '<path d="M6 3h12v4H6zM6 7v14h12"/><path d="M9 13h6v5H9z"/><path d="M12 7v3"/>',
-  purifier:  '<rect x="6" y="3" width="12" height="18" rx="3"/><circle cx="12" cy="12" r="3"/><path d="M9.5 6.5h5"/>',
-  rug:       '<rect x="4" y="6" width="16" height="12" rx="1"/><rect x="7.5" y="9" width="9" height="6" rx=".5"/><path d="M4 9H2M4 12H2M4 15H2M20 9h2M20 12h2M20 15h2"/>',
-  bike:      '<circle cx="6" cy="16" r="3.5"/><circle cx="18" cy="16" r="3.5"/><path d="M6 16l4-8h5l3 8M10 8l3 8H6M8.5 6h3M15 8l-1-3h2"/>',
-  skis:      '<path d="M5 21L15 3M10 21L20 3"/><path d="M3 21h4M8 21h4"/>',
-  coat:      '<path d="M9 3l3 3 3-3 4 2 2 7-3 1v8H6v-8l-3-1 2-7z"/><path d="M12 6v15"/>',
-};
-const icon = (name) =>
-  `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name]}</svg>`;
+/* Listing photos: free Unsplash photos (unsplash.com/license), served from Unsplash's image CDN.
+   photo = Unsplash image id; crop = optional extra crop params; by = photographer handle (credits in README). */
+const photoUrl = (l, w) =>
+  `https://images.unsplash.com/${l.photo}?w=${w}&h=${Math.round(w * 0.75)}&fit=crop${l.crop || ""}&auto=format&q=70`;
 
 /* when: "now" = in Ann Arbor now; "may" = available when the seller moves out in May */
 const LISTINGS = [
-  { slug: "sofa-3-seat",       title: "Three-seat sofa, grey",          price: 220, cat: "furniture",   icon: "sofa",     year: "MBA2", when: "may" },
-  { slug: "standing-desk",     title: "Electric standing desk",         price: 180, cat: "furniture",   icon: "desk",     year: "MBA2", when: "may" },
-  { slug: "bookshelf-5-shelf", title: "Five-shelf bookshelf",           price: 40,  cat: "furniture",   icon: "shelf",    year: "MBA1", when: "now" },
-  { slug: "monitor-27-4k",     title: "27-inch 4K monitor",             price: 140, cat: "electronics", icon: "monitor",  year: "MBA2", when: "now" },
-  { slug: "laser-printer",     title: "Wireless laser printer",         price: 60,  cat: "electronics", icon: "printer",  year: "MBA2", when: "may" },
-  { slug: "cookware-set",      title: "Ten-piece cookware set",         price: 70,  cat: "kitchen",     icon: "pot",      year: "MBA2", when: "may" },
-  { slug: "coffee-maker",      title: "Drip coffee maker",              price: 25,  cat: "kitchen",     icon: "coffee",   year: "MBA1", when: "now" },
-  { slug: "air-purifier",      title: "HEPA air purifier",              price: 60,  cat: "home",        icon: "purifier", year: "MBA2", when: "now" },
-  { slug: "rug-and-lamp",      title: "Area rug and floor lamp",        price: 65,  cat: "home",        icon: "rug",      year: "MBA2", when: "may" },
-  { slug: "commuter-bike",     title: "Hybrid commuter bike with lock", price: 160, cat: "sports",      icon: "bike",     year: "MBA2", when: "now" },
-  { slug: "ski-set-boots",     title: "Skis, boots and poles",          price: 200, cat: "sports",      icon: "skis",     year: "MBA2", when: "now" },
-  { slug: "down-parka-m",      title: "Down parka, men's M",            price: 150, cat: "clothing",    icon: "coat",     year: "MBA1", when: "now" },
+  { slug: "sofa-3-seat",       title: "Three-seat sofa, grey",           price: 220, cat: "furniture",   year: "MBA2", hood: "Burns Park",       cond: "Good",     when: "may", photo: "photo-1634497885778-152eb6fd543d", by: "hadyyazdi" },
+  { slug: "standing-desk",     title: "Electric standing desk",          price: 180, cat: "furniture",   year: "MBA2", hood: "Kerrytown",        cond: "Like new", when: "may", photo: "photo-1623177623442-979c1e42c255", by: "ergonofis" },
+  { slug: "bookshelf-5-shelf", title: "Tall wooden bookshelf",           price: 40,  cat: "furniture",   year: "MBA1", hood: "Old West Side",    cond: "Good",     when: "now", photo: "photo-1593430980369-68efc5a5eb34", by: "pickawood" },
+  { slug: "monitor-27-4k",     title: "27-inch 4K monitor",              price: 140, cat: "electronics", year: "MBA2", hood: "Downtown",         cond: "Like new", when: "now", photo: "photo-1764588029885-d115de3bda1e", by: "martinkatler" },
+  { slug: "laser-printer",     title: "Wireless laser printer",          price: 60,  cat: "electronics", year: "MBA2", hood: "North Campus",     cond: "Good",     when: "may", photo: "photo-1612815154858-60aa4c59eaa6", by: "mahrous_houses" },
+  { slug: "cookware-set",      title: "Nonstick pots and pans set",      price: 70,  cat: "kitchen",     year: "MBA2", hood: "South University", cond: "Good",     when: "may", photo: "photo-1584990347193-6bebebfeaeee", by: "cookerking" },
+  { slug: "coffee-maker",      title: "Drip coffee maker",               price: 25,  cat: "kitchen",     year: "MBA1", hood: "Water Hill",       cond: "Used",     when: "now", photo: "photo-1565452344518-47faca79dc69", by: "ronan18" },
+  { slug: "air-purifier",      title: "HEPA air purifier",               price: 60,  cat: "home",        year: "MBA2", hood: "Kerrytown",        cond: "Like new", when: "now", photo: "photo-1709745634912-2a79b938f3c2", by: "nicsandman20" },
+  { slug: "area-rug",          title: "Patterned area rug, 5 by 8 feet", price: 65,  cat: "home",        year: "MBA2", hood: "Old West Side",    cond: "Good",     when: "may", photo: "photo-1767159601823-96d0295344ce", by: "kesarihome" },
+  { slug: "commuter-bike",     title: "Hybrid commuter bike with lock",  price: 160, cat: "sports",      year: "MBA2", hood: "Lower Town",       cond: "Good",     when: "now", photo: "photo-1613773038029-2dd0cdb924aa", by: "zoltantasi" },
+  { slug: "ski-set-boots",     title: "Skis, boots and poles",           price: 200, cat: "sports",      year: "MBA2", hood: "Burns Park",       cond: "Used",     when: "now", photo: "photo-1759938049570-dd3f0c2f9c8d", by: "dariendesigns", crop: "&crop=focalpoint&fp-x=0.75&fp-y=0.45&fp-z=1.6" },
+  { slug: "puffer-jacket-m",   title: "White puffer jacket, men's M",    price: 150, cat: "clothing",    year: "MBA1", hood: "Downtown",         cond: "Like new", when: "now", photo: "photo-1706765779494-2705542ebe74", by: "cgxlmedia" },
 ];
 
 const CATEGORIES = [
@@ -220,12 +207,16 @@ function gridHtml() {
   if (!items.length) return `<p class="empty">Nothing in this category yet.</p>`;
   return items.map((l) => `
     <article class="card">
-      <div class="tile tile-${l.cat}">${icon(l.icon)}</div>
+      <div class="tile tile-${l.cat}">
+        <img src="${photoUrl(l, 480)}" srcset="${photoUrl(l, 480)} 480w, ${photoUrl(l, 800)} 800w"
+             sizes="(max-width: 700px) 50vw, 340px" width="480" height="360"
+             alt="${esc(l.title)}" loading="lazy" decoding="async">
+      </div>
       <div class="card-body">
         <p class="card-cat">${esc(catLabel(l.cat))}</p>
         <h3 class="card-title">${esc(l.title)}</h3>
-        <div class="card-price"><span class="price">$${l.price}</span></div>
-        <p class="card-meta">${esc(l.year)} seller · ${l.when === "may" ? "Available in May" : "In Ann Arbor now"}</p>
+        <div class="card-price"><span class="price">$${l.price}</span><span class="tag">${esc(l.cond)}</span></div>
+        <p class="card-meta">${esc(l.year)} in ${esc(l.hood)} · ${l.when === "may" ? "Available in May" : "In Ann Arbor now"}</p>
         <div class="card-actions">
           ${ctaButton({ form: "reserve", role: "buyer", model: "none", item: l.slug, cta: "reserve", label: "Reserve", context: l.title, variant: "secondary" })}
         </div>

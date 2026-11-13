@@ -177,8 +177,8 @@ The palette is two inks on two papers, plus one maize mark. All neutrals are tin
 - **Surface `#FBFAF7`**: listing cards, sitting a half-step lighter than paper.
 - **Hairline `#D6DCE3`**: 1px rules and card borders. Decorative only; never the sole carrier of meaning.
 
-### Listing tiles
-Flat, muted, solid fills, one per category: Furniture `tile-sand`, Electronics `tile-stone`, Kitchen `tile-clay`, Home `tile-sage`, Sports & Outdoor and Clothing `tile-fog`. Each carries a single navy line icon at about 70% opacity.
+### Listing photos
+Every listing shows a real photo of the item, cropped to 4:3 with the item centered and the background kept simple. One crop and one ratio for all cards, so the grid stays calm. Never mix in screenshots, collages, text overlays or busy room scenes where the item is small. The category fill (Furniture `tile-sand`, Electronics `tile-stone`, Kitchen `tile-clay`, Home `tile-sage`, Sports & Outdoor and Clothing `tile-fog`) stays behind each photo as its loading placeholder. Example photos are free Unsplash photos served from `images.unsplash.com` with `fit=crop` (and a focal-point crop when the item sits off-center), with credits in the README and one quiet credit line in the footer.
 
 ### Named Rules
 - **The Maize Budget.** At most three maize marks are visible on any one screen. Approved uses: (1) the underline on one word of the hero headline, (2) the active filter's 2px underline. Listing tags are neutral (hairline outline), not maize, so a row of cards never breaks the budget. Never a button fill, section background, large block or text color on paper (it fails contrast).
@@ -232,7 +232,7 @@ Flat. Depth comes from paper tone and hairlines, never from shadow.
 - `md` 10px: listing image tiles (inside cards).
 - `lg` 14px: listing cards.
 - No pills (999px) except a toast if one is needed. Corners stay consistent: never mix sharp and round on the same component.
-- **Line icons:** inline SVG, 24px grid, 1.5px stroke, round caps and joins, `currentColor`, no fills. One simple icon per category tile (sofa, coat, pot, monitor, bicycle). No emoji anywhere, and no sparkle or star icons.
+- **Photos, not icons, on listings.** If an icon is ever needed elsewhere, use inline SVG on a 24px grid with a 1.5px stroke, round caps and joins, `currentColor` and no fills. No emoji anywhere, and no sparkle or star icons.
 
 ## Motion
 
@@ -257,7 +257,14 @@ Slow and minimal. Opacity fades only.
 Text tabs, not chips. Inactive filters use slate body-small; hover turns them navy-ink. The active filter is navy-ink with a 2px maize underline offset 6px below the baseline (one of the maize marks). They are `button` elements with `aria-pressed`.
 
 ### Listing card
-`surface` background, 1px hairline border, 14px corners, 12px inner padding around the tile. Top: a flat category-colored tile (4:3, 10px corners) with a centered navy line icon. Below, in order: title (serif), price (serif) with an optional neutral tag (1px hairline outline, slate text, e.g. "May listing"), "MBA2 seller · In Ann Arbor now" or "· Available in May" in meta, then a full-width secondary (outline) "Reserve" button. Show the original new price as muted strikethrough only if it is labeled as an estimate.
+`surface` background, 1px hairline border, 14px corners, 12px inner padding around the photo (4:3, 10px corners). Below it, in order:
+- category (meta, muted);
+- title (serif);
+- price (serif) with a neutral condition tag beside it ("Like new", "Good" or "Used": 1px hairline outline, slate text);
+- one meta line naming the seller's class year, Ann Arbor neighborhood and availability, e.g. "MBA2 in Kerrytown · In Ann Arbor now" or "· Available in May";
+- a full-width secondary (outline) "Reserve" button.
+
+Never invent seller names, ratings, view counts or "people interested" counters: on a Ross-only site invented names could match real classmates, and counters add pressure.
 
 ### Selling option column (signature component)
 Two equal columns in the paper-blue band. Each column has the option name (Newsreader 500, 1.75rem), one flowing sentence of description (slate body, 44ch), the illustrative fee (price serif) with a one-line note (meta), and a primary button aligned to the column bottom. An option may carry one extra quiet sentence (meta size, muted), such as the unsold-items policy under "We handle everything". Keep any such line short, so the two columns stay close in weight. No icon, no fact list, and no "recommended" or "most convenient" badge or highlighted column: any of these would bias the test.
