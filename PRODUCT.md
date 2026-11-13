@@ -8,7 +8,7 @@ web
 
 ## Stack
 
-Static HTML, CSS and vanilla JS. No framework, no build step. Hosted on GitHub Pages (`mikeandrews-umich/ross-resale`, served from `main` root). The only allowed external dependencies are Google Fonts, Google Forms (sign-up destinations) and an optional GA4 tag.
+Static HTML, CSS and vanilla JS. No framework, no build step. Hosted on GitHub Pages (`Ross-Resale/ross-resale.github.io`, served from `main` root at https://ross-resale.github.io/). The only allowed external dependencies are Google Fonts, Google Forms (sign-up destinations) and an optional GA4 tag.
 
 ## Users
 

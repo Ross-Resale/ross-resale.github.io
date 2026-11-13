@@ -22,8 +22,8 @@ Use a different link per channel so you can tell where sign-ups came from:
 
 | Where | Link |
 |---|---|
-| Ross Slack channels | `https://mikeandrews-umich.github.io/ross-resale/?src=slack` |
-| MBA-wide email | `https://mikeandrews-umich.github.io/ross-resale/?src=email` |
+| Ross Slack channels | `https://ross-resale.github.io/?src=slack` |
+| MBA-wide email | `https://ross-resale.github.io/?src=email` |
 | Anything else | the plain URL, which is recorded as `src=direct` |
 
 Optional: add `&segment=mba1` to open the page in the MBA1 view, for example in an MBA1-only channel (`?src=slack&segment=mba1`). `src` accepts any short lowercase label, so `?src=whatsapp` also works.
@@ -136,7 +136,7 @@ ga4Id: "",   // e.g. "G-XXXXXXXXXX"; leave "" to turn GA off
 
 ## 4. Deploy / redeploy (GitHub Pages)
 
-The site is already live at `https://mikeandrews-umich.github.io/ross-resale/`. **After any edit** (e.g., filling in CONFIG):
+The site is already live at `https://ross-resale.github.io/`. **After any edit** (e.g., filling in CONFIG):
 
 ```bash
 git add . && git commit -m "Update config" && git push
