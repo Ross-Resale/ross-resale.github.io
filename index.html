@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ross Resale</title>
+  <meta name="description" content="Student-to-student resale for Ross MBAs. Reserve before you arrive, store over summer, collect at orientation.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="#top"><span class="brand-mark">R</span> Ross Resale</a>
+      <nav class="topnav">
+        <a href="#market">Browse</a>
+        <a href="#models">Join waitlist</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="wrap">
+        <h1>Ross Resale</h1>
+        <p class="lede">Buy your Ann Arbor setup from the MBA2s leaving it behind. Ross MBAs only. Less hassle, lower cost, less waste.</p>
+        <ol class="steps">
+          <li><span class="step-num">1</span><div><strong>Reserve</strong><span>Incoming MBA1s browse and reserve furniture, winter gear and essentials before arriving.</span></div></li>
+          <li><span class="step-num">2</span><div><strong>Store</strong><span>Graduating MBA2s make one drop-off in May. Items are held over the summer.</span></div></li>
+          <li><span class="step-num">3</span><div><strong>Collect</strong><span>Pick up at orientation in August, or arrange delivery to your new place.</span></div></li>
+        </ol>
+        <div class="hero-ctas">
+          <a class="btn btn-maize" href="#market">Browse listings</a>
+          <a class="btn btn-ghost" href="#models">Which option fits you?</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="market" class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <h2>Available for August pickup</h2>
+            <p class="muted">Preview listings from graduating MBA2s.</p>
+          </div>
+          <div class="filters" role="group" aria-label="Filter by category" id="filters"></div>
+        </div>
+        <div class="grid" id="grid" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section id="models" class="section section-alt">
+      <div class="wrap">
+        <div class="section-head center">
+          <div>
+            <h2>How would you use Ross Resale?</h2>
+            <p class="muted">We're deciding what to build first. Join the waitlist for the one you'd actually use.</p>
+          </div>
+        </div>
+        <div class="models" id="models-grid"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <p>Pretotype for a Ross MBA class project. No real transactions.</p>
+      <p class="muted small">Not affiliated with or endorsed by the University of Michigan.</p>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
