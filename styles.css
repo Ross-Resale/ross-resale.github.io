@@ -167,7 +167,7 @@ a { color: inherit; text-underline-offset: 0.22em; text-decoration-thickness: 1p
 .tl-dot {
   position: absolute; top: -40px; left: 0;
   width: 18px; height: 18px; border-radius: 50%;
-  background: var(--navy-ink); border: 3px solid var(--maize);
+  background: var(--maize); border: 0;
 }
 .tl-when { font-family: var(--serif); font-weight: 500; font-size: 1.75rem; line-height: 1.15; }
 .tl-step p { margin-top: var(--s-sm); max-width: 30ch; color: var(--on-navy-muted); }
