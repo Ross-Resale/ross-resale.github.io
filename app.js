@@ -13,13 +13,12 @@ const CONFIG = {
 
   // Prefill entry IDs: one slot per tracked parameter, per form.
   // "" skips a field (the value still travels as a plain URL param, but the form won't capture it).
-  // TODO: segment_source and order were not provided yet; add their entry IDs when you have them.
   entryIds: {
-    list:    { src: "entry.677976045",  segment: "entry.1632646360", segment_source: "", role: "entry.644311723",  model: "entry.1251220424", order: "", item: "entry.1087205914", intent: "entry.1432546577" },
-    pickup:  { src: "entry.79385715",   segment: "entry.1636570176", segment_source: "", role: "entry.767686248",  model: "entry.1609845146", order: "", item: "entry.676806321",  intent: "entry.1838633127" },
-    bundle:  { src: "entry.1669151282", segment: "entry.349446310",  segment_source: "", role: "entry.1445233054", model: "entry.1179835521", order: "", item: "entry.1774453204", intent: "entry.516654492" },
-    reserve: { src: "entry.103907061",  segment: "entry.987412449",  segment_source: "", role: "entry.2039685305", model: "entry.1812600123", order: "", item: "entry.723724596",  intent: "entry.1429252411" },
-    remind:  { src: "entry.1964159990", segment: "entry.1431058766", segment_source: "", role: "entry.269617889",  model: "entry.1457797625", order: "", item: "entry.907222145",  intent: "entry.647261115" },
+    list:    { src: "entry.677976045",  segment: "entry.1632646360", segment_source: "entry.1032519999", role: "entry.644311723",  model: "entry.1251220424", order: "entry.232137060", item: "entry.1087205914", intent: "entry.1432546577" },
+    pickup:  { src: "entry.79385715",   segment: "entry.1636570176", segment_source: "entry.314272298", role: "entry.767686248",  model: "entry.1609845146", order: "entry.435577424", item: "entry.676806321",  intent: "entry.1838633127" },
+    bundle:  { src: "entry.1669151282", segment: "entry.349446310",  segment_source: "entry.194942234", role: "entry.1445233054", model: "entry.1179835521", order: "entry.169264949", item: "entry.1774453204", intent: "entry.516654492" },
+    reserve: { src: "entry.103907061",  segment: "entry.987412449",  segment_source: "entry.18515739", role: "entry.2039685305", model: "entry.1812600123", order: "entry.598492394", item: "entry.723724596",  intent: "entry.1429252411" },
+    remind:  { src: "entry.1964159990", segment: "entry.1431058766", segment_source: "entry.1525714072", role: "entry.269617889",  model: "entry.1457797625", order: "entry.371992717", item: "entry.907222145",  intent: "entry.647261115" },
   },
 
   // Google Analytics 4 measurement ID, e.g. "G-ABC123XYZ". Leave "" to disable GA.

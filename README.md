@@ -121,12 +121,12 @@ So that the tracking fields fill in automatically:
 | `reserve` | every listing's "Reserve" |
 | `remind` | "Remind me in March" |
 
-Each form's `entryIds` has one slot per tracked parameter: `src`, `segment`, `segment_source`, `role`, `model`, `order`, `item` and `intent`. **`segment_source` and `order` are still empty in every form.** Their values still travel in the URL, but Google Forms only saves a value that has a matching `entry.` ID. To capture them, add those two short-answer fields to each form, get their IDs (step 2) and paste them in. A field left `""` is simply skipped.
+Each form's `entryIds` has one slot per tracked parameter, and all eight are filled for every form: `src`, `segment`, `segment_source`, `role`, `model`, `order`, `item` and `intent`. A field left `""` would simply be skipped.
 
 ```js
 entryIds: {
-  list: { src: "entry.677976045", segment: "entry.1632646360", segment_source: "", role: "entry.644311723",
-          model: "entry.1251220424", order: "", item: "entry.1087205914", intent: "entry.1432546577" },
+  list: { src: "entry.677976045", segment: "entry.1632646360", segment_source: "entry.1032519999", role: "entry.644311723",
+          model: "entry.1251220424", order: "entry.232137060", item: "entry.1087205914", intent: "entry.1432546577" },
   // ...pickup, bundle, reserve, remind
 },
 ga4Id: "",   // e.g. "G-XXXXXXXXXX"; leave "" to turn GA off
