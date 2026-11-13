@@ -61,7 +61,7 @@ const LISTINGS = [
   { slug: "area-rug",          title: "Patterned area rug, 5 by 8 feet", price: 65,  cat: "home",        year: "MBA2", hood: "Old West Side",    cond: "Good",     when: "may", photo: "photo-1767159601823-96d0295344ce", by: "kesarihome" },
   { slug: "commuter-bike",     title: "Hybrid commuter bike with lock",  price: 160, cat: "sports",      year: "MBA2", hood: "Lower Town",       cond: "Good",     when: "now", photo: "photo-1613773038029-2dd0cdb924aa", by: "zoltantasi" },
   { slug: "skis-bindings",     title: "Atomic Bent 100 skis with bindings", price: 250, cat: "sports",   year: "MBA2", hood: "Burns Park",       cond: "Used",     when: "now", img: "images/skis.jpg", rotate: true },
-  { slug: "puffer-jacket-m",   title: "White puffer jacket, men's M",    price: 150, cat: "clothing",    year: "MBA1", hood: "Downtown",         cond: "Like new", when: "now", photo: "photo-1706765779494-2705542ebe74", by: "cgxlmedia" },
+  { slug: "patagonia-down-parka", title: "Patagonia Down With It parka, women's M", price: 180, cat: "clothing", year: "MBA1", hood: "Downtown", cond: "Like new", when: "now", img: "images/parka.webp", bg: "#f3f4ef" },
 ];
 
 const CATEGORIES = [

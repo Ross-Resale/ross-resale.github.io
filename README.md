@@ -169,9 +169,9 @@ Note: one person can click more than one CTA, and nothing on the site deduplicat
 
 ## Listing photos
 
-**Your own product photos** (in `images/`, added by the team) are used for five listings: the sofa (`sofa.avif`), bookshelf (`bookshelf.avif`), cookware set (`cookware.webp`), Moccamaster coffee maker (`coffee-maker.webp`) and Atomic skis (`skis.jpg`). Each listing in `LISTINGS` in `app.js` points to its file with `img`. A product shot on white or transparent blends into the card's category tint. One on an off-white backdrop gets `bg` set to that color, so no box shows. `rotate: true` angles a tall, narrow photo across the frame.
+**Your own product photos** (in `images/`, added by the team) are used for six listings: the sofa (`sofa.avif`), bookshelf (`bookshelf.avif`), cookware set (`cookware.webp`), Moccamaster coffee maker (`coffee-maker.webp`), Atomic skis (`skis.jpg`) and Patagonia Down With It parka (`parka.webp`). Each listing in `LISTINGS` in `app.js` points to its file with `img`. A product shot on white or transparent blends into the card's category tint. One on an off-white backdrop gets `bg` set to that color, so no box shows. `rotate: true` angles a tall, narrow photo across the frame.
 
-The other seven are free photos from [Unsplash](https://unsplash.com), used under the [Unsplash License](https://unsplash.com/license) (free to use, credit appreciated but not required), loaded from Unsplash's image CDN:
+The other six are free photos from [Unsplash](https://unsplash.com), used under the [Unsplash License](https://unsplash.com/license) (free to use, credit appreciated but not required), loaded from Unsplash's image CDN:
 
 | Listing | Photographer |
 |---|---|
@@ -181,6 +181,5 @@ The other seven are free photos from [Unsplash](https://unsplash.com), used unde
 | HEPA air purifier | [@nicsandman20](https://unsplash.com/@nicsandman20) |
 | Patterned area rug | [@kesarihome](https://unsplash.com/@kesarihome) |
 | Hybrid commuter bike | [@zoltantasi](https://unsplash.com/@zoltantasi) |
-| White puffer jacket | [@cgxlmedia](https://unsplash.com/@cgxlmedia) |
 
 To swap in one of your own photos, drop it in `images/`, then on that listing replace `photo` and `by` with `img: "images/<file>"` (and `bg` if its backdrop isn't pure white).
