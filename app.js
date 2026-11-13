@@ -2,24 +2,24 @@
    CONFIG: edit this block, then redeploy. Nothing else needs to change.
    ========================================================================= */
 const CONFIG = {
-  // Google Form links (the "Send > link" URL, ending in /viewform).
+  // Google Form links, one per CTA (the "Send > link" URL, ending in /viewform).
   forms: {
-    marketplace: "https://docs.google.com/forms/d/e/REPLACE_ME_MARKETPLACE/viewform", // "List an item"
-    storage:     "https://docs.google.com/forms/d/e/REPLACE_ME_STORAGE/viewform",     // "Book a pickup"
-    apartment:   "https://docs.google.com/forms/d/e/REPLACE_ME_APARTMENT/viewform",   // whole-setup bundle line
-    reserve:     "https://docs.google.com/forms/d/e/REPLACE_ME_RESERVE/viewform",     // listing "Reserve" buttons
-    remind:      "https://docs.google.com/forms/d/e/REPLACE_ME_REMIND/viewform",      // "Remind me in March"
+    list:    "https://docs.google.com/forms/d/e/1FAIpQLSdk-Bo9BtJqcnnn9nm0_KvtmhgWREDMapY9RizrfmVv9UaOTA/viewform", // "List an item"
+    pickup:  "https://docs.google.com/forms/d/e/1FAIpQLSfJciVvaV1r2gYFaETBzQjPfTEAzv28zt2TPPle-_4ntrGxnQ/viewform", // "Book a pickup"
+    bundle:  "https://docs.google.com/forms/d/e/1FAIpQLSeWLHaZpbQhhTVUiwUaETrsgs2wErnuFHkHNSNyMIa6m1XHYg/viewform", // whole-setup bundle line
+    reserve: "https://docs.google.com/forms/d/e/1FAIpQLScFFuU3Wz2xLnaIn56IGXX2n5u1AOjJt2_7reBwzs8QJDqkUw/viewform", // every listing "Reserve"
+    remind:  "https://docs.google.com/forms/d/e/1FAIpQLSfQPiR21TycdE0D-OTi0UbG2_kRpWx8aM9b3Z_9GTdW9kzAkQ/viewform", // "Remind me in March"
   },
 
-  // Prefill entry IDs: one entry per tracked parameter, per form.
-  // Example: role: "entry.123456789"  ->  &entry.123456789=seller
-  // Leave "" to skip a field. Each form has its own IDs (see README).
+  // Prefill entry IDs: one slot per tracked parameter, per form.
+  // "" skips a field (the value still travels as a plain URL param, but the form won't capture it).
+  // TODO: segment_source and order were not provided yet; add their entry IDs when you have them.
   entryIds: {
-    marketplace: { source: "", src: "", segment: "", segment_source: "", role: "", model: "", order: "", item: "", intent: "" },
-    storage:     { source: "", src: "", segment: "", segment_source: "", role: "", model: "", order: "", item: "", intent: "" },
-    apartment:   { source: "", src: "", segment: "", segment_source: "", role: "", model: "", order: "", item: "", intent: "" },
-    reserve:     { source: "", src: "", segment: "", segment_source: "", role: "", model: "", order: "", item: "", intent: "" },
-    remind:      { source: "", src: "", segment: "", segment_source: "", role: "", model: "", order: "", item: "", intent: "" },
+    list:    { src: "entry.677976045",  segment: "entry.1632646360", segment_source: "", role: "entry.644311723",  model: "entry.1251220424", order: "", item: "entry.1087205914", intent: "entry.1432546577" },
+    pickup:  { src: "entry.79385715",   segment: "entry.1636570176", segment_source: "", role: "entry.767686248",  model: "entry.1609845146", order: "", item: "entry.676806321",  intent: "entry.1838633127" },
+    bundle:  { src: "entry.1669151282", segment: "entry.349446310",  segment_source: "", role: "entry.1445233054", model: "entry.1179835521", order: "", item: "entry.1774453204", intent: "entry.516654492" },
+    reserve: { src: "entry.103907061",  segment: "entry.987412449",  segment_source: "", role: "entry.2039685305", model: "entry.1812600123", order: "", item: "entry.723724596",  intent: "entry.1429252411" },
+    remind:  { src: "entry.1964159990", segment: "entry.1431058766", segment_source: "", role: "entry.269617889",  model: "entry.1457797625", order: "", item: "entry.907222145",  intent: "entry.647261115" },
   },
 
   // Google Analytics 4 measurement ID, e.g. "G-ABC123XYZ". Leave "" to disable GA.
@@ -85,15 +85,18 @@ const OPTIONS = [
     note: "This comes out of the sale price only when an item sells, and listing is free.",
     cta: "List an item",
     ctaType: "list",
+    form: "list",
   },
   {
     id: "storage",
     name: "We handle everything",
     body: "We pick your items up from your apartment, store them over the summer, list and sell them to incoming students, and send you the money once they sell.",
+    detail: "If something doesn’t sell by the end of the summer, we’ll donate it to a local Ann Arbor charity, or you can ask for it back.",
     price: "15% of the sale price",
     note: "This comes out of the sale price only when an item sells, with a $10 minimum per item and nothing to pay upfront.",
     cta: "Book a pickup",
     ctaType: "pickup",
+    form: "pickup",
   },
 ];
 
@@ -160,10 +163,6 @@ function refreshCtaLinks() {
   });
 }
 
-function isPlaceholder(url) {
-  return /REPLACE_ME/.test(url);
-}
-
 function initGA() {
   const id = (CONFIG.ga4Id || "").trim();
   if (!id) return;
@@ -204,8 +203,8 @@ const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&
 const catLabel = (id) => (CATEGORIES.find((c) => c.id === id) || {}).label || id;
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-function ctaButton({ form, role, model, item, cta, label, context, order }) {
-  return `<a class="btn btn-primary btn-block" href="#" target="_blank" rel="noopener"
+function ctaButton({ form, role, model, item, cta, label, context, order, variant = "primary" }) {
+  return `<a class="btn btn-${variant} btn-block" href="#" target="_blank" rel="noopener"
             aria-label="${esc(label + ": " + context)}"
             data-cta="${esc(cta)}" data-form="${esc(form)}" data-role="${esc(role)}"
             data-model="${esc(model)}" data-item="${esc(item || "")}"${order ? ` data-order="${esc(order)}"` : ""}>${esc(label)}</a>`;
@@ -229,7 +228,7 @@ function gridHtml() {
         <div class="card-price"><span class="price">$${l.price}</span></div>
         <p class="card-meta">${esc(l.year)} seller · ${l.when === "may" ? "Available in May" : "In Ann Arbor now"}</p>
         <div class="card-actions">
-          ${ctaButton({ form: "reserve", role: "buyer", model: "none", item: l.slug, cta: "reserve", label: "Reserve", context: l.title })}
+          ${ctaButton({ form: "reserve", role: "buyer", model: "none", item: l.slug, cta: "reserve", label: "Reserve", context: l.title, variant: "secondary" })}
         </div>
       </div>
     </article>`).join("");
@@ -249,11 +248,12 @@ function renderOptions() {
     <article class="model">
       <h3 class="model-name">${esc(o.name)}</h3>
       <p class="model-lead">${esc(o.body)}</p>
+      ${o.detail ? `<p class="model-detail">${esc(o.detail)}</p>` : ""}
       <div class="model-price">
         <span class="price">${esc(o.price)}</span>
         <p class="model-note">${esc(o.note)}</p>
       </div>
-      ${ctaButton({ form: o.id, role: "seller", model: o.id, item: "", cta: o.ctaType, label: o.cta, context: o.name, order: state.order })}
+      ${ctaButton({ form: o.form, role: "seller", model: o.id, item: "", cta: o.ctaType, label: o.cta, context: o.name, order: state.order })}
     </article>`).join("");
 }
 
@@ -276,15 +276,6 @@ function applySegment(animate) {
     $("#segment-line").classList.remove("is-fading");
     $("#flow").classList.remove("is-fading");
   }, 240);
-}
-
-let toastTimer;
-function toast(msg) {
-  const t = $("#toast");
-  t.textContent = msg;
-  t.classList.add("show");
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove("show"), 2800);
 }
 
 /* ---------- Init ---------- */
@@ -316,11 +307,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!a) return;
     a.href = buildFormUrl(a.dataset.form, ctaParams(a)); // always current
     trackClick(a);
-    if (isPlaceholder(a.href)) {
-      e.preventDefault();
-      toast("This form isn’t connected yet.");
-      console.info("[Ross Resale] Add the Google Form URL for '" + a.dataset.form + "' in CONFIG (app.js).");
-    }
   });
 
   const topbar = $("#topbar");

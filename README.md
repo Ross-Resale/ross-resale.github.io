@@ -53,9 +53,9 @@ Nothing is real: no payments and no backend.
 
 | Form | `CONFIG.forms` key | Opened by |
 |---|---|---|
-| A. List it yourself | `marketplace` | "List an item" |
-| B. We handle everything | `storage` | "Book a pickup" |
-| C. Whole-setup bundle | `apartment` | the bundle line |
+| A. List it yourself | `list` | "List an item" |
+| B. We handle everything | `pickup` | "Book a pickup" |
+| C. Whole-setup bundle | `bundle` | the bundle line |
 | D. Reserve | `reserve` | every listing's "Reserve" |
 | E. Reminder | `remind` | "Remind me in March" |
 
@@ -68,20 +68,20 @@ In each form:
 5. **Settings → Responses → Collect email addresses → "Verified".** This captures the umich email automatically, so the email question below is optional.
 6. Click **Send → link icon → copy the URL** (ends in `/viewform`).
 
-### Form A: List it yourself (`marketplace`)
+### Form A: List it yourself (`list`)
 1. **How likely are you to list your things here and handle the sale with buyers yourself?** (Linear scale 1–5, "Not at all" → "Definitely")
 2. **What share of the sale price would feel fair for a Ross-only marketplace?** (Nothing / Up to 5% / Up to 10% / More than 10%)
 3. **Your umich email, so we can tell you when listing opens.** (Short answer, validation: Regular expression → matches `.*@umich\.edu$`)
 4. **Which are you?** (MBA1 / MBA2 / Other)
 
-### Form B: We handle everything (`storage`)
+### Form B: We handle everything (`pickup`)
 1. **How likely are you to book a pickup and have us store and sell your things?** (Linear scale 1–5)
 2. **Which items would you want picked up?** (Checkboxes: Sofa or chairs / Bed or mattress / Desk or table / Shelving or storage / TV or monitor / Kitchen items / Bike / Sports or outdoor gear / Winter clothing / Other)
 3. **Would 15% of the sale price, with a $10 minimum per item and nothing upfront, work for you?** (Yes / Only for bigger items / I'd want a lower rate / No)
 4. **Your umich email.** (Short answer, same regex validation)
 5. **Which are you?** (MBA1 / MBA2 / Other)
 
-### Form C: Whole-setup bundle (`apartment`)
+### Form C: Whole-setup bundle (`bundle`)
 1. **What would you include in the bundle?** (Checkboxes: Bedroom / Living room / Kitchen / Desk and office / Everything)
 2. **When does your lease end?** (Short answer)
 3. **Your umich email.** (Short answer, same regex validation)
@@ -111,31 +111,28 @@ So that the tracking fields fill in automatically:
 
 ## 3. Fill in CONFIG
 
-Open `app.js`. Everything you need is in the `CONFIG` block at the top, with one prefill slot per parameter for every form:
+**Done.** All five forms and their prefill entry IDs are in the `CONFIG` block at the top of `app.js`, keyed by CTA:
+
+| Key | Opened by |
+|---|---|
+| `list` | "List an item" |
+| `pickup` | "Book a pickup" |
+| `bundle` | the whole-setup bundle line |
+| `reserve` | every listing's "Reserve" |
+| `remind` | "Remind me in March" |
+
+Each form's `entryIds` has one slot per tracked parameter: `src`, `segment`, `segment_source`, `role`, `model`, `order`, `item` and `intent`. **`segment_source` and `order` are still empty in every form.** Their values still travel in the URL, but Google Forms only saves a value that has a matching `entry.` ID. To capture them, add those two short-answer fields to each form, get their IDs (step 2) and paste them in. A field left `""` is simply skipped.
 
 ```js
-const CONFIG = {
-  forms: {
-    marketplace: "https://docs.google.com/forms/d/e/1FAIpQ.../viewform",
-    storage:     "https://docs.google.com/forms/d/e/1FAIpQ.../viewform",
-    apartment:   "https://docs.google.com/forms/d/e/1FAIpQ.../viewform",
-    reserve:     "https://docs.google.com/forms/d/e/1FAIpQ.../viewform",
-    remind:      "https://docs.google.com/forms/d/e/1FAIpQ.../viewform",
-  },
-  entryIds: {
-    storage: { source: "", src: "entry.111111", segment: "entry.222222", segment_source: "entry.333333",
-               role: "entry.444444", model: "entry.555555", order: "entry.666666", item: "", intent: "" },
-    // ...same shape for marketplace, apartment, reserve, remind ("" skips a field)
-  },
-  ga4Id: "G-XXXXXXXXXX",   // leave "" to turn GA off
-  source: "ross-resale-site",
-  defaultSrc: "direct",
-  defaultSegment: "mba2",
-};
+entryIds: {
+  list: { src: "entry.677976045", segment: "entry.1632646360", segment_source: "", role: "entry.644311723",
+          model: "entry.1251220424", order: "", item: "entry.1087205914", intent: "entry.1432546577" },
+  // ...pickup, bundle, reserve, remind
+},
+ga4Id: "",   // e.g. "G-XXXXXXXXXX"; leave "" to turn GA off
 ```
 
-- Until a form URL is filled in (it still contains `REPLACE_ME`), its buttons show "This form isn't connected yet" instead of opening a broken link.
-- **GA4:** at analytics.google.com, create a property, then **Admin → Data streams → Web**, and add your Pages URL. Copy the **Measurement ID** (`G-...`). Each click sends a `cta_click` event with `cta`, `src`, `segment`, `segment_source`, `role`, `model`, `order`, `item` and `intent`. To use these in reports, register them under **Admin → Custom definitions → Create custom dimension** (event scope). Data can take 24–48 hours to show up in standard reports, but it appears in **Realtime** within seconds.
+- **GA4:** at analytics.google.com, create a property, then **Admin → Data streams → Web**, and add your Pages URL. Copy the **Measurement ID** (`G-...`) into `ga4Id`. Each click sends a `cta_click` event with `cta`, `src`, `segment`, `segment_source`, `role`, `model`, `order`, `item` and `intent`. To use these in reports, register them under **Admin → Custom definitions → Create custom dimension** (event scope). Data can take 24–48 hours to show up in standard reports, but it appears in **Realtime** within seconds.
 
 ## 4. Deploy / redeploy (GitHub Pages)
 

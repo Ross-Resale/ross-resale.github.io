@@ -99,6 +99,15 @@ components:
   button-primary-hover:
     backgroundColor: "{colors.navy-deep}"
     textColor: "{colors.surface}"
+  button-secondary:
+    backgroundColor: "transparent"
+    textColor: "{colors.navy-ink}"
+    typography: "{typography.label}"
+    rounded: "{rounded.sm}"
+    padding: "12px 20px"
+  button-secondary-hover:
+    backgroundColor: "{colors.paper-blue}"
+    textColor: "{colors.navy-ink}"
   button-quiet:
     backgroundColor: "transparent"
     textColor: "{colors.navy-ink}"
@@ -238,7 +247,8 @@ Slow and minimal. Opacity fades only.
 ## Components
 
 ### Buttons
-- **Primary:** navy-ink fill, surface text, 6px corners, label type, 12px × 20px padding. Hover: navy-deep. Used for Reserve and Join the waitlist.
+- **Primary:** navy-ink fill, surface text, 6px corners, label type, 12px × 20px padding. Hover: navy-deep. Reserved for seller actions ("List an item", "Book a pickup") and the hero's "Start selling", so the two selling options are always the strongest actions on the page.
+- **Secondary (outline):** transparent fill, navy-ink text, 1px `muted` border (5.0:1 against paper, which meets the 3:1 non-text contrast minimum), same size, corners and type as primary. Hover: paper-blue fill and a navy-ink border. **Buyer actions on listings ("Reserve") always use the secondary style**, never primary.
 - **Quiet:** transparent with navy-ink text and a 1px navy-ink bottom border on hover. Used for secondary links.
 - **Focus (all interactive):** `outline: 2px solid #00274C; outline-offset: 3px`.
 - Minimum touch target is 44px tall.
@@ -247,10 +257,10 @@ Slow and minimal. Opacity fades only.
 Text tabs, not chips. Inactive filters use slate body-small; hover turns them navy-ink. The active filter is navy-ink with a 2px maize underline offset 6px below the baseline (one of the maize marks). They are `button` elements with `aria-pressed`.
 
 ### Listing card
-`surface` background, 1px hairline border, 14px corners, 12px inner padding around the tile. Top: a flat category-colored tile (4:3, 10px corners) with a centered navy line icon. Below, in order: title (serif), price (serif) with an optional neutral tag (1px hairline outline, slate text, e.g. "May listing"), "MBA2 seller · Available Aug pickup" in muted body-small, then a full-width primary "Reserve" button. Show the original new price as muted strikethrough only if it is labeled as an estimate.
+`surface` background, 1px hairline border, 14px corners, 12px inner padding around the tile. Top: a flat category-colored tile (4:3, 10px corners) with a centered navy line icon. Below, in order: title (serif), price (serif) with an optional neutral tag (1px hairline outline, slate text, e.g. "May listing"), "MBA2 seller · In Ann Arbor now" or "· Available in May" in meta, then a full-width secondary (outline) "Reserve" button. Show the original new price as muted strikethrough only if it is labeled as an estimate.
 
 ### Selling option column (signature component)
-Two equal columns in the paper-blue band. Each column has the option name (Newsreader 500, 1.75rem), one flowing sentence of description (slate body, 44ch), the illustrative fee (price serif) with a one-line note (meta), and a primary button aligned to the column bottom. No icon, no fact list, and no "recommended" or "most convenient" badge or highlighted column: any of these would bias the test.
+Two equal columns in the paper-blue band. Each column has the option name (Newsreader 500, 1.75rem), one flowing sentence of description (slate body, 44ch), the illustrative fee (price serif) with a one-line note (meta), and a primary button aligned to the column bottom. An option may carry one extra quiet sentence (meta size, muted), such as the unsold-items policy under "We handle everything". Keep any such line short, so the two columns stay close in weight. No icon, no fact list, and no "recommended" or "most convenient" badge or highlighted column: any of these would bias the test.
 
 ### Segment toggle
 "Who are you?" in slate body-small, followed by a two-option segmented control: a surface-colored track with a 1px hairline border and 10px corners, holding two buttons. The active option is filled navy-ink with surface text, and the inactive one is slate on transparent. Buttons use `aria-pressed`. Switching crossfades the segment line and the section order (240ms, opacity only). It sits at the foot of the hero, below a hairline, with the segment line under it.
