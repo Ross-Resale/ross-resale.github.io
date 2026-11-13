@@ -16,10 +16,11 @@ colors:
   tile-sage: "#DCE2D9"
   tile-clay: "#E9DDD4"
   tile-stone: "#E1E3E5"
+  on-navy-muted: "#C3CDD9"
 typography:
   display:
     fontFamily: "Newsreader, Georgia, 'Times New Roman', serif"
-    fontSize: "clamp(2.5rem, 5.2vw, 4.25rem)"
+    fontSize: "clamp(2.5rem, 4.4vw, 3.75rem)"
     fontWeight: 350
     lineHeight: 1.04
     letterSpacing: "-0.015em"
@@ -181,7 +182,7 @@ The palette is two inks on two papers, plus one maize mark. All neutrals are tin
 Every listing shows a real photo of the item, cropped to 4:3 with the item centered and the background kept simple. One crop and one ratio for all cards, so the grid stays calm. Never mix in screenshots, collages, text overlays or busy room scenes where the item is small. The category fill (Furniture `tile-sand`, Electronics `tile-stone`, Kitchen `tile-clay`, Home `tile-sage`, Sports & Outdoor and Clothing `tile-fog`) stays behind each photo as its loading placeholder. **Product shots** (an item photographed alone on white, off-white or transparent) are shown whole with `object-fit: contain` and 8% padding, never cropped. A white or transparent backdrop blends into the category tint with `mix-blend-mode: multiply`. An off-white backdrop instead sets the tile to that exact color, so no box edge shows. A tall, narrow item (skis) is angled across the frame rather than shrunk. **Scene photos** (an item in a room) fill the frame with a 4:3 cover crop. Prefer product shots, because they make the grid calmer. Some example photos are free Unsplash photos served from `images.unsplash.com` with `fit=crop` (and a focal-point crop when the item sits off-center), with credits in the README and one quiet credit line in the footer.
 
 ### Named Rules
-- **The Maize Budget.** At most three maize marks are visible on any one screen. Approved uses: (1) the underline on one word of the hero headline, (2) the active filter's 2px underline. Listing tags are neutral (hairline outline), not maize, so a row of cards never breaks the budget. Never a button fill, section background, large block or text color on paper (it fails contrast).
+- **The Maize Budget.** At most three maize marks are visible on any one screen. Approved uses: (1) the underline on one word of the hero headline, (2) the active filter's 2px underline, (3) the small dot on the hero stack's status chip, (4) the "How it works" timeline line and its step markers, which count as one mark. Listing tags are neutral (hairline outline), not maize, so a row of cards never breaks the budget. Never a button fill, section background, large block or text color on paper (it fails contrast).
 - **No gradients, anywhere.** Not in backgrounds, buttons, text or tiles. No glass, blur, glow, mesh or blobs.
 - **No purple.** Any tint that drifts violet (including blue-purple "stone") gets corrected toward neutral gray-blue.
 
@@ -190,7 +191,7 @@ Every listing shows a real photo of the item, cropped to 4:3 with the item cente
 A two-family pairing. **Newsreader** (a variable serif with optical sizes, designed for reading) carries headlines, model names and prices: literate, warm and calm at light weights. **Hanken Grotesk** (a quiet, humanist-leaning grotesque) handles body, UI and labels. Both are loaded from Google Fonts with `display=swap`. Never use Inter, Roboto, DM Sans or system-default UI faces as the primary type.
 
 ### Hierarchy
-- **Display** (Newsreader 350, clamp 2.5 to 4.25rem, line-height 1.04): hero headline only. Left-aligned, 21ch measure, at most three lines on desktop.
+- **Display** (Newsreader 350, clamp 2.5 to 3.75rem, line-height 1.04): hero headline only. Left-aligned, 18ch measure, in the hero's left column.
 - **Headline** (Newsreader 400, clamp 1.75 to 2.5rem): section titles.
 - **Title** (Newsreader 500, 1.375rem): listing titles, the wordmark and step names on desktop.
 - **Title small** (Newsreader 500, 1.125rem): listing titles and step names on mobile.
@@ -210,17 +211,18 @@ A two-family pairing. **Newsreader** (a variable serif with optical sizes, desig
 
 - **Page measure:** max-width 1080px, with side gutters of 20px (mobile) and 40px (desktop). Text blocks are capped at 60ch.
 - **Rhythm:** sections are separated by `3xl` (112px) on desktop and `2xl` (72px) on mobile. Few sections, lots of air: hero, listings, models, footer. Nothing else.
-- **Hero:** left-aligned, never centered. The headline, a one-sentence subhead, one primary button and one plain text link. Below a hairline, the "Who are you?" toggle and the segment line it controls. No step strip: a step sequence would describe one selling option and tilt the test.
+- **Hero:** two columns on desktop (copy about 55%, visual about 45%), left-aligned, never centered. Left: the headline, a one-sentence subhead, one primary button and one plain text link, then the "Who are you?" toggle and its segment line directly below the buttons (no separate band or rule). Right: the hero card stack. Below 960px the stack moves under the copy at a smaller size.
+- **How it works:** a deep navy band directly after the hero with a four-step horizontal timeline (Now, May, Summer, August). The step copy is the team's. Now and May name both selling options. Summer and August describe the full-service path, which the open questions note flags as a possible tilt toward storage. Below 760px the timeline stacks vertically with the line on the left.
 - **Listings:** 3 columns on desktop, 2 on tablet and mobile (including 375px phones), 1 below 340px. The gap is `lg` (24px) desktop and `md` (16px) mobile. Filters sit on one line above the grid as text tabs and scroll sideways on mobile.
-- **Two ways to sell:** two equal, side-by-side columns separated by a vertical hairline on desktop (not floating cards), each topped by its serif name. On mobile they become two stacked rows separated by a horizontal hairline. Equal width, equal type, identical CTA styling and no badge keep the test fair. A single quiet bundle line sits under both, set off by a hairline.
-- **Breakpoints:** 340px, 700px, 800px (models stack), 960px.
+- **Two ways to sell:** two equal, side-by-side columns separated by a vertical hairline on desktop (not floating cards), each topped by its serif name. On mobile they become two stacked rows separated by a horizontal hairline. Equal width, equal type, identical CTA styling and no badge keep the test fair. Both columns share one set of grid rows (CSS subgrid), so the name, the three steps, the fee, the notes and the button line up across the two options. A single quiet bundle line sits under both, set off by a hairline.
+- **Breakpoints:** 340px, 700px, 760px (timeline stacks), 800px (options stack), 960px (hero stacks).
 
 ## Elevation & Depth
 
 Flat. Depth comes from paper tone and hairlines, never from shadow.
 
 - Cards: `surface` on `paper` with a 1px `hairline` border. No box-shadow.
-- Hover on cards: the border darkens to `muted`. No lift and no shadow.
+- Hover on listing cards: the border darkens to `muted` and the card lifts 3px (see Motion). No shadow.
 - The sticky top bar sits on `paper` with a 1px bottom hairline once scrolled. No blur or translucency.
 
 ### Named Rules
@@ -236,13 +238,16 @@ Flat. Depth comes from paper tone and hairlines, never from shadow.
 
 ## Motion
 
-Slow and minimal. Opacity fades only.
+Calm and settled: short distances (12px at most), slow ease-out (`cubic-bezier(0.16, 1, 0.3, 1)`), and every entrance runs once. Never bounce, spring overshoot, parallax, scroll-jacking or looping motion.
 
-- Section and grid entrance: opacity 0 to 1, 400ms, `cubic-bezier(0.22, 1, 0.36, 1)`, and once only.
-- Filter change: crossfade the grid, 240ms.
-- Hover and focus color changes: 160ms.
-- No transforms, slides, parallax, bounce or scroll-jacking.
-- `prefers-reduced-motion: reduce` removes all transitions and animations.
+- **Focal moment: the timeline.** As "How it works" scrolls into view, the maize line draws left to right over 1.4s at an even pace (top to bottom on mobile), and each step fades up 8px as the line reaches its marker, 350ms apart.
+- **Hero on load:** the headline, subhead, buttons and toggle fade and rise 12px in a 90ms stagger (700ms each). The card stack settles in just after, each card easing from a flatter angle into its resting tilt.
+- **Scroll reveals:** section heads, the option columns, the bundle line, the remind line and listing cards fade up 12px as they enter, with an 80ms stagger across each row of the grid. Content is visible by default and is only hidden once `<html class="js">` is set. If `app.js` has not loaded within 2.5s, the class is removed so the page can never stay blank. A scroll check also reveals anything already passed, so an anchor jump never leaves a section blank.
+- **Listing hover:** the card lifts 3px and its photo scales to 1.03 (320ms and 700ms).
+- **Filters:** leaving cards fade out (160ms), then the remaining cards glide to their new positions (FLIP, 460ms) and new ones fade in, with no hard jump.
+- **Segment toggle:** the segment line and the section order cross-fade (240ms).
+- **Hover and focus color changes:** 160ms.
+- **`prefers-reduced-motion: reduce`:** everything shows immediately in its final state, with no movement, fades or hover lift.
 
 ## Components
 
@@ -267,16 +272,29 @@ Text tabs, not chips. Inactive filters use slate body-small; hover turns them na
 Never invent seller names, ratings, view counts or "people interested" counters: on a Ross-only site invented names could match real classmates, and counters add pressure.
 
 ### Selling option column (signature component)
-Two equal columns in the paper-blue band. Each column has the option name (Newsreader 500, 1.75rem), one flowing sentence of description (slate body, 44ch), the illustrative fee (price serif) with a one-line note (meta), and a primary button aligned to the column bottom. An option may carry one extra quiet sentence (meta size, muted), such as the unsold-items policy under "We handle everything". Keep any such line short, so the two columns stay close in weight. No icon, no fact list, and no "recommended" or "most convenient" badge or highlighted column: any of these would bias the test.
+Two equal columns in the paper-blue band, on shared subgrid rows. Each column has, in order:
+- the option name (Newsreader 500, 1.75rem);
+- a numbered three-step list (serif numerals in muted, slate body, hairline rules between steps), with the same number of steps and similar sentence lengths in both columns;
+- the illustrative fee (price serif) with its note (meta);
+- one quiet sentence on what happens if something doesn't sell (meta, muted), present in both columns;
+- a primary button aligned to the column bottom.
+
+No icon and no "recommended" or "most convenient" badge or highlighted column: any of these would bias the test.
+
+### Hero card stack
+Three existing listings (desk, monitor, parka) shown as compact horizontal cards: a 4:3 photo tile on the left (44%), with the title, price and "MBA2 in Kerrytown" meta on the right (the meta hides on mobile). The cards overlap only at their edges, so every title and price stays readable, and rest at small tilts (between -2° and 1.5°). The top card carries one status chip stating a plain fact from its listing data ("In Ann Arbor now" or "Available in May"), never an action by another person such as "Reserved by…": navy-ink fill, surface text, a 7px maize dot, 6px corners. The stack is decorative (`aria-hidden`), reuses listing data rather than inventing items, and never shows counts, names or activity numbers.
+
+### How it works band
+`navy-ink` background with `#FBFAF7` headings and `#C3CDD9` body text (both well above AA on navy). The timeline is a 1px faint rule plus a 3px maize line, with 18px step markers (a navy fill and a 3px maize ring). Step names use Newsreader 500 at 1.75rem (1.375rem on mobile), each followed by one flowing sentence. Maize appears only in the line and the markers.
 
 ### Segment toggle
-"Who are you?" in slate body-small, followed by a two-option segmented control: a surface-colored track with a 1px hairline border and 10px corners, holding two buttons. The active option is filled navy-ink with surface text, and the inactive one is slate on transparent. Buttons use `aria-pressed`. Switching crossfades the segment line and the section order (240ms, opacity only). It sits at the foot of the hero, below a hairline, with the segment line under it.
+"Who are you?" in slate body-small, followed by a two-option segmented control: a surface-colored track with a 1px hairline border and 10px corners, holding two buttons. The active option is filled navy-ink with surface text, and the inactive one is slate on transparent. Buttons use `aria-pressed`. Switching crossfades the segment line and the section order (240ms, opacity only). It sits in the hero directly below the buttons, with the segment line under it (0.9375rem, slate). There is no separate band or rule.
 
 ### Remind line
 A single quiet line above the footer, separated by a hairline: slate text plus a quiet underlined link. No box, no button, no maize.
 
 ### Navigation
-Paper-colored top bar, 56px tall. The wordmark "Ross Resale" is set in Newsreader 500, and is not a logo mark or monogram square. Two quiet text links on the right: "Sell" and "Listings".
+Paper-colored top bar, 56px tall. The wordmark "Ross Resale" is set in Newsreader 500, and is not a logo mark or monogram square. Three quiet text links on the right: "How it works", "Sell" and "Listings".
 
 ### Footer
 Paper-blue band with muted body-small text: "Pretotype for a Ross MBA class project. No real transactions." plus the non-affiliation line. No navy slab.

@@ -6,6 +6,7 @@
   <title>Ross Resale</title>
   <meta name="description" content="The marketplace for Ross students to buy and sell furniture and gear, whether you list things yourself or have us handle the sale for you.">
   <meta name="theme-color" content="#F5F4EF">
+  <script>document.documentElement.classList.add("js");setTimeout(function(){if(!window.__rrReady)document.documentElement.classList.remove("js");},2500);</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://images.unsplash.com">
@@ -19,6 +20,7 @@
     <div class="wrap topbar-inner">
       <a class="wordmark" href="#top">Ross Resale</a>
       <nav class="topnav" aria-label="Sections">
+        <a href="#how">How it works</a>
         <a href="#sell">Sell</a>
         <a href="#listings">Listings</a>
       </nav>
@@ -27,44 +29,81 @@
 
   <main id="main">
     <section class="hero" id="top">
-      <div class="wrap">
-        <h1 class="hero-title">The marketplace for <span class="mark">Ross students</span> to buy and sell furniture and gear</h1>
-        <p class="hero-lede">List your things for classmates and incoming students, and if you’d rather not deal with it, we’ll pick everything up, store it over the summer, and sell it for you.</p>
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <h1 class="hero-title" data-reveal style="--d: 0ms">The marketplace for <span class="mark">Ross students</span> to buy and sell furniture and gear</h1>
+          <p class="hero-lede" data-reveal style="--d: 90ms">List your things for classmates and incoming students, and if you’d rather not deal with it, we’ll pick everything up, store it over the summer, and sell it for you.</p>
 
-        <div class="hero-actions">
-          <a class="btn btn-primary" href="#sell">Start selling</a>
-          <a class="link-quiet" href="#listings">Browse what’s listed</a>
-        </div>
-
-        <div class="audience">
-          <div class="segment" role="group" aria-labelledby="segment-label">
-            <span class="segment-label" id="segment-label">Who are you?</span>
-            <div class="segment-options">
-              <button type="button" class="segment-btn" data-segment="mba2" aria-pressed="true">I’m an MBA2</button>
-              <button type="button" class="segment-btn" data-segment="mba1" aria-pressed="false">I’m an MBA1</button>
-            </div>
+          <div class="hero-actions" data-reveal style="--d: 180ms">
+            <a class="btn btn-primary" href="#sell">Start selling</a>
+            <a class="link-quiet" href="#listings">Browse what’s listed</a>
           </div>
-          <p class="segment-line" id="segment-line" aria-live="polite">Whenever you’re ready to clear out your apartment, you can sell to classmates yourself or let us take care of all of it.</p>
+
+          <div class="audience" data-reveal style="--d: 270ms">
+            <div class="segment" role="group" aria-labelledby="segment-label">
+              <span class="segment-label" id="segment-label">Who are you?</span>
+              <div class="segment-options">
+                <button type="button" class="segment-btn" data-segment="mba2" aria-pressed="true">I’m an MBA2</button>
+                <button type="button" class="segment-btn" data-segment="mba1" aria-pressed="false">I’m an MBA1</button>
+              </div>
+            </div>
+            <p class="segment-line" id="segment-line" aria-live="polite">Whenever you’re ready to clear out your apartment, you can sell to classmates yourself or let us take care of all of it.</p>
+          </div>
         </div>
+
+        <div class="hero-visual" aria-hidden="true">
+          <div class="stack" id="stack"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="how" class="how" aria-labelledby="how-title">
+      <div class="wrap">
+        <div class="section-head" data-reveal>
+          <h2 id="how-title" class="section-title">How it works</h2>
+          <p class="section-sub">One calendar for everyone, whether you list things yourself or have us handle them.</p>
+        </div>
+        <ol class="timeline" id="timeline">
+          <li class="tl-step" style="--i: 0">
+            <span class="tl-dot" aria-hidden="true"></span>
+            <h3 class="tl-when">Now</h3>
+            <p>List your things, or browse what classmates are selling.</p>
+          </li>
+          <li class="tl-step" style="--i: 1">
+            <span class="tl-dot" aria-hidden="true"></span>
+            <h3 class="tl-when">May</h3>
+            <p>Hand items off to buyers yourself, or we pick them up from your apartment.</p>
+          </li>
+          <li class="tl-step" style="--i: 2">
+            <span class="tl-dot" aria-hidden="true"></span>
+            <h3 class="tl-when">Summer</h3>
+            <p>We store items for anyone who chose full service.</p>
+          </li>
+          <li class="tl-step" style="--i: 3">
+            <span class="tl-dot" aria-hidden="true"></span>
+            <h3 class="tl-when">August</h3>
+            <p>Incoming students collect what they reserved, and sellers get paid.</p>
+          </li>
+        </ol>
       </div>
     </section>
 
     <div id="flow">
       <section id="sell" class="section section-band" aria-labelledby="sell-title">
         <div class="wrap">
-          <div class="section-head">
+          <div class="section-head" data-reveal>
             <h2 id="sell-title" class="section-title">Two ways to sell</h2>
             <p class="section-sub">In both cases the fee comes out of the sale price, so nothing is charged unless an item sells.</p>
           </div>
-          <div class="models" id="models"></div>
-          <p class="bundle">If you’re moving out of a fully furnished place, <a class="link-quiet link-inline" href="#" target="_blank" rel="noopener"
+          <div class="models" id="models" data-reveal></div>
+          <p class="bundle" data-reveal>If you’re moving out of a fully furnished place, <a class="link-quiet link-inline" href="#" target="_blank" rel="noopener"
              data-cta="bundle" data-form="bundle" data-role="seller" data-model="apartment">ask us about selling the whole setup as one bundle</a>.</p>
         </div>
       </section>
 
       <section id="listings" class="section" aria-labelledby="listings-title">
         <div class="wrap">
-          <div class="section-head">
+          <div class="section-head" data-reveal>
             <h2 id="listings-title" class="section-title">Listed by classmates</h2>
             <p class="section-sub">Here are examples of the kinds of things classmates sell, with some in Ann Arbor now and others available when their owners move out in May.</p>
           </div>
@@ -75,7 +114,7 @@
     </div>
 
     <aside class="remind" aria-label="Reminder">
-      <div class="wrap remind-inner">
+      <div class="wrap remind-inner" data-reveal>
         <p>If selling isn’t on your mind yet, we can send you a reminder in March when it starts to matter.</p>
         <a class="link-quiet" href="#" target="_blank" rel="noopener"
            data-cta="remind" data-form="remind" data-role="seller" data-model="undecided" data-intent="remind">Remind me in March</a>

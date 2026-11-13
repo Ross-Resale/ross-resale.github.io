@@ -74,14 +74,19 @@ const CATEGORIES = [
   { id: "clothing",    label: "Clothing" },
 ];
 
-/* Two ways to sell. Same component, same structure, same button style: keep them equal. */
+/* Two ways to sell. Same component, same structure, same length, same button style: keep them equal. */
 const OPTIONS = [
   {
     id: "marketplace",
     name: "List it yourself",
-    body: "You post your items, interested buyers reach out, and you arrange the handoff with them directly.",
+    steps: [
+      "You post each item with a few photos and the price you want.",
+      "Classmates and incoming students reach out when something catches their eye.",
+      "You arrange the handoff with each buyer directly and get paid in person.",
+    ],
     price: "5% of the sale price",
     note: "This comes out of the sale price only when an item sells, and listing is free.",
+    detail: "If something doesn’t sell, it stays yours, and you can lower the price or take it with you.",
     cta: "List an item",
     ctaType: "list",
     form: "list",
@@ -89,14 +94,25 @@ const OPTIONS = [
   {
     id: "storage",
     name: "We handle everything",
-    body: "We pick your items up from your apartment, store them over the summer, list and sell them to incoming students, and send you the money once they sell.",
-    detail: "If something doesn’t sell by the end of the summer, we’ll donate it to a local Ann Arbor charity, or you can ask for it back.",
+    steps: [
+      "You book a pickup, and we collect your items from your apartment in May.",
+      "We store everything over the summer and list it for incoming students.",
+      "We hand each item to its buyer in August and send you the money.",
+    ],
     price: "15% of the sale price",
     note: "This comes out of the sale price only when an item sells, with a $10 minimum per item and nothing to pay upfront.",
+    detail: "If something doesn’t sell by the end of the summer, we’ll donate it to a local Ann Arbor charity, or you can ask for it back.",
     cta: "Book a pickup",
     ctaType: "pickup",
     form: "pickup",
   },
+];
+
+/* Hero stack: three existing listings, back to front. Purely illustrative (aria-hidden). */
+const STACK = [
+  { slug: "standing-desk", r: "-2deg" },
+  { slug: "monitor-27-4k", r: "1.5deg" },
+  { slug: "patagonia-down-parka", r: "-1deg", chip: "In Ann Arbor now" },
 ];
 
 const SEGMENTS = {
@@ -201,6 +217,7 @@ const $ = (sel) => document.querySelector(sel);
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const catLabel = (id) => (CATEGORIES.find((c) => c.id === id) || {}).label || id;
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const EASE = "cubic-bezier(0.16, 1, 0.3, 1)";
 
 function ctaButton({ form, role, model, item, cta, label, context, order, variant = "primary" }) {
   return `<a class="btn btn-${variant} btn-block" href="#" target="_blank" rel="noopener"
@@ -209,20 +226,23 @@ function ctaButton({ form, role, model, item, cta, label, context, order, varian
             data-model="${esc(model)}" data-item="${esc(item || "")}"${order ? ` data-order="${esc(order)}"` : ""}>${esc(label)}</a>`;
 }
 
+function tileHtml(l) {
+  return `<div class="tile tile-${l.cat}${l.img ? " tile-product" : ""}${l.bg ? " tile-matte" : ""}"${l.bg ? ` style="background:${l.bg}"` : ""}>
+        ${photoHtml(l)}
+      </div>`;
+}
+
 function renderFilters() {
   $("#filters").innerHTML = CATEGORIES.map((c) =>
     `<button type="button" class="filter" data-cat="${c.id}" aria-pressed="${c.id === state.category}">${esc(c.label)}</button>`
   ).join("");
 }
 
-function gridHtml() {
-  const items = LISTINGS.filter((l) => state.category === "all" || l.cat === state.category);
-  if (!items.length) return `<p class="empty">Nothing in this category yet.</p>`;
-  return items.map((l) => `
-    <article class="card">
-      <div class="tile tile-${l.cat}${l.img ? " tile-product" : ""}${l.bg ? " tile-matte" : ""}"${l.bg ? ` style="background:${l.bg}"` : ""}>
-        ${photoHtml(l)}
-      </div>
+/* All cards render once; filters toggle `hidden`, so the same elements can glide to new positions. */
+function renderGrid() {
+  $("#grid").innerHTML = LISTINGS.map((l, i) => `
+    <article class="card" data-cat="${l.cat}" data-reveal style="--d: ${(i % 3) * 80}ms">
+      ${tileHtml(l)}
       <div class="card-body">
         <p class="card-cat">${esc(catLabel(l.cat))}</p>
         <h3 class="card-title">${esc(l.title)}</h3>
@@ -233,14 +253,40 @@ function gridHtml() {
         </div>
       </div>
     </article>`).join("");
+  refreshCtaLinks();
 }
 
-function renderGrid(animate) {
-  const grid = $("#grid");
-  const paint = () => { grid.innerHTML = gridHtml(); refreshCtaLinks(); };
-  if (!animate || reducedMotion) { paint(); return; }
-  grid.classList.add("is-fading");
-  setTimeout(() => { paint(); grid.classList.remove("is-fading"); }, 240);
+const matches = (card) => state.category === "all" || card.dataset.cat === state.category;
+
+/* FLIP: fade out leaving cards, then let the remaining ones glide to their new spots and new ones fade in. */
+function applyFilter(animate) {
+  const cards = [...document.querySelectorAll("#grid .card")];
+  if (!animate || reducedMotion || !Element.prototype.animate) {
+    cards.forEach((c) => { c.hidden = !matches(c); if (!c.hidden) c.classList.add("is-in"); });
+    return;
+  }
+  const first = new Map();
+  cards.filter((c) => !c.hidden).forEach((c) => first.set(c, c.getBoundingClientRect()));
+  const leaving = cards.filter((c) => !c.hidden && !matches(c));
+  leaving.forEach((c) => c.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 160, easing: "ease-out", fill: "forwards" }));
+
+  setTimeout(() => {
+    leaving.forEach((c) => c.getAnimations().forEach((an) => an.cancel()));
+    cards.forEach((c) => { c.hidden = !matches(c); });
+    let n = 0;
+    cards.filter((c) => !c.hidden).forEach((c) => {
+      c.classList.add("is-in");
+      const f = first.get(c);
+      if (f) {
+        const l = c.getBoundingClientRect();
+        const dx = f.left - l.left, dy = f.top - l.top;
+        if (dx || dy) c.animate([{ transform: `translate(${dx}px, ${dy}px)` }, { transform: "none" }], { duration: 460, easing: EASE });
+      } else {
+        c.animate([{ opacity: 0, transform: "translateY(8px)" }, { opacity: 1, transform: "none" }],
+          { duration: 420, delay: 60 + Math.min(n++, 5) * 50, easing: EASE, fill: "backwards" });
+      }
+    });
+  }, leaving.length ? 170 : 0);
 }
 
 function renderOptions() {
@@ -248,14 +294,29 @@ function renderOptions() {
   $("#models").innerHTML = ordered.map((o) => `
     <article class="model">
       <h3 class="model-name">${esc(o.name)}</h3>
-      <p class="model-lead">${esc(o.body)}</p>
-      ${o.detail ? `<p class="model-detail">${esc(o.detail)}</p>` : ""}
+      <ol class="model-steps">${o.steps.map((t) => `<li>${esc(t)}</li>`).join("")}</ol>
       <div class="model-price">
         <span class="price">${esc(o.price)}</span>
         <p class="model-note">${esc(o.note)}</p>
       </div>
+      <p class="model-detail">${esc(o.detail)}</p>
       ${ctaButton({ form: o.form, role: "seller", model: o.id, item: "", cta: o.ctaType, label: o.cta, context: o.name, order: state.order })}
     </article>`).join("");
+}
+
+function renderStack() {
+  $("#stack").innerHTML = STACK.map((s, i) => {
+    const l = LISTINGS.find((x) => x.slug === s.slug);
+    return `<div class="stack-card stack-${i + 1}" data-reveal style="--r: ${s.r}; --d: ${380 + i * 120}ms">
+      ${s.chip ? `<span class="chip"><span class="chip-dot"></span>${esc(s.chip)}</span>` : ""}
+      ${tileHtml(l).replace('loading="lazy"', 'loading="eager"')}
+      <div class="stack-body">
+        <p class="stack-title">${esc(l.title)}</p>
+        <p class="stack-price">$${l.price}</p>
+        <p class="stack-meta">${esc(l.year)} in ${esc(l.hood)}</p>
+      </div>
+    </div>`;
+  }).join("");
 }
 
 function applySegment(animate) {
@@ -279,13 +340,52 @@ function applySegment(animate) {
   }, 240);
 }
 
+/* ---------- Scroll reveals ----------
+   IntersectionObserver gives the gentle entrance; a light scroll check also reveals anything the
+   visitor has already passed (anchor jumps, fast flicks, restored scroll), so nothing stays hidden. */
+function initReveals() {
+  const timeline = $("#timeline");
+  const pending = new Set([...document.querySelectorAll("[data-reveal]"), timeline]);
+  const show = (el) => {
+    el.classList.add(el === timeline ? "is-drawn" : "is-in");
+    pending.delete(el);
+  };
+  if (reducedMotion || !("IntersectionObserver" in window)) {
+    [...pending].forEach(show);
+    return;
+  }
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) { show(e.target); io.unobserve(e.target); }
+    });
+  }, { rootMargin: "0px 0px -8% 0px", threshold: 0.12 });
+  pending.forEach((el) => io.observe(el));
+
+  let ticking = false;
+  const sweep = () => {
+    ticking = false;
+    const limit = window.innerHeight * 0.92;
+    [...pending].forEach((el) => {
+      if (el.hidden || el.offsetParent === null && el !== timeline) return;
+      if (el.getBoundingClientRect().top < limit) { show(el); io.unobserve(el); }
+    });
+    if (!pending.size) window.removeEventListener("scroll", onScroll);
+  };
+  const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(sweep); } };
+  window.addEventListener("scroll", onScroll, { passive: true });
+  sweep();
+}
+
 /* ---------- Init ---------- */
+window.__rrReady = true; // tells the inline safety net in <head> the script loaded
 document.addEventListener("DOMContentLoaded", () => {
   initGA();
   renderFilters();
   renderOptions();
-  renderGrid(false);
+  renderGrid();
+  renderStack();
   applySegment(false);
+  initReveals();
 
   document.querySelector(".segment").addEventListener("click", (e) => {
     const btn = e.target.closest(".segment-btn");
@@ -300,7 +400,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!btn || btn.dataset.cat === state.category) return;
     state.category = btn.dataset.cat;
     renderFilters();
-    renderGrid(true);
+    applyFilter(true);
   });
 
   document.addEventListener("click", (e) => {
